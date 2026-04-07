@@ -177,6 +177,7 @@
         .exam-control-bar {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 1.5px dashed #e2e8f0;
@@ -187,7 +188,7 @@
             border-left: 5px solid #fcd34d;
             padding: 18px;
             border-radius: 8px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             min-height: 40px;
         }
 
@@ -202,6 +203,69 @@
             text-decoration: line-through;
             opacity: 0.3;
             color: #94a3b8;
+        }
+
+        /* 클카 모드 전용 UI */
+        .mode-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: #1e293b;
+            background: #f1f5f9;
+            padding: 10px 15px;
+            border-radius: 10px;
+        }
+
+        .click-area {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .click-answer-box {
+            min-height: 60px;
+            padding: 15px;
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: flex-start;
+            background: #fafafa;
+        }
+
+        .click-word-pool {
+            padding: 15px;
+            background: #eff6ff;
+            border-radius: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .word-chip {
+            padding: 8px 14px;
+            background: white;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: 0.2s;
+            user-select: none;
+        }
+
+        .word-chip:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .word-chip.used {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
         }
 
         .badge {
@@ -269,7 +333,7 @@
                     </div>
                     <div class="switch-container">
                         <input type="checkbox" id="useStrikeToggle" checked onchange="updateStrikeThrough()">
-                        <label for="useStrikeToggle">사용한 단어 표시</label>
+                        <label for="useStrikeToggle">사용한 단어 표시(타이핑용)</label>
                     </div>
                 </div>
             </div>
@@ -283,24 +347,34 @@
                         끝내기</button>
                     <button class="btn-util" onclick="skipNext()">⏭ 다음 문장 스킵</button>
                 </div>
+
                 <div id="lvBadgeContainer"></div>
                 <div id="korQ"
-                    style="font-size:1.3rem; font-weight:800; margin-bottom:25px; color: #0f172a; line-height:1.4;">
+                    style="font-size:1.3rem; font-weight:800; margin-bottom:20px; color: #0f172a; line-height:1.4;">
                 </div>
                 <div id="hintArea" class="hint-box"></div>
+
+                <div class="mode-selector">
+                    <label style="cursor:pointer;"><input type="radio" name="inputMode" value="typing" checked
+                            onchange="switchInputMode()"> ⌨️ 직접 타이핑</label>
+                    <label style="cursor:pointer;"><input type="radio" name="inputMode" value="click"
+                            onchange="switchInputMode()"> 🖱️ 클카 모드 (단어 클릭)</label>
+                </div>
+
                 <textarea id="userInput" placeholder="영문장을 입력하세요... (대소문자 무관)"
                     oninput="updateStrikeThrough()"></textarea>
+
+                <div id="clickArea" class="click-area">
+                    <div id="clickAnswerBox" class="click-answer-box"></div>
+                    <div id="clickWordPool" class="click-word-pool"></div>
+                </div>
 
                 <div style="display:flex; gap:12px; margin-top:25px;">
                     <button id="btnCheck" class="btn-main" style="flex: 2;" onclick="checkAnswer()">채점 및 정답확인</button>
                     <button id="btnNext" class="btn-next" style="flex: 2;" onclick="skipNext()">다음 문제로 👉</button>
-                    <button id="btnForceCorrect" class="btn-util"
-                        style="flex: 1; background:#10b981; color:white; display:none;" onclick="forceCorrect()">정답
-                        처리</button>
                     <button class="btn-util" style="flex: 1; background:#f97316; color:white;"
                         onclick="saveToWrongNote()">오답 저장</button>
                 </div>
-
                 <div id="feedback" style="margin-top:20px; font-weight:700; font-size:1.1rem;"></div>
             </div>
         </div>
@@ -314,7 +388,7 @@
     </div>
 
     <script>
-        // 전체 지문 데이터베이스 (이전과 동일하게 유지)
+        // 전체 지문 데이터베이스 (4-1 ~ 6-4, 5-4 제외)
         const db = [
             // 4-1
             { title: "4-1 (미시 기후)", kor: "야외에서도 기후는 보통 인간의 통제 밖에 있다고 여겨지지만, 국지적인 온도 조절은 미시 기후 규모에서는 때때로 효과적이다.", eng: "Even outdoors, although climate is usually regarded as beyond the control of man, localized temperature control is sometimes effective on a microclimate scale.", isThesis: true },
@@ -325,7 +399,7 @@
 
             // 4-2
             { title: "4-2 (충성심)", kor: "사람들에게 일을 하도록 동기를 부여하기 위해 조직에 에너지를 언제든지 주입할 수 있다.", eng: "Energy can always be injected into an organization to motivate people to do things.", isThesis: false },
-            { title: "4-2 (충성심)", kor: "보너스, 승진, 다른 보상들, 심지어 약간의 처벌까지도 확실히 사람들을 더 열심히 일하게 만들 수 있지만, 그러한 성과는 모든 조작과 마찬가지로 단기적이다.", eng: "Over time, such tactics cost more money and increase stress for employee and employer alike, and eventually will become the main reason people show up for work every day.", isThesis: false },
+            { title: "4-2 (충성심)", kor: "보너스, 승진, 다른 보상들, 심지어 약간의 처벌까지도 확실히 사람들을 더 열심히 일하게 만들 수 있지만, 그러한 성과는 모든 조작과 마찬가지로 단기적이다.", eng: "Bonuses, promotions, other carrots, and even a few sticks can get people to work harder, for sure, but the gains are, like all manipulations, short-term.", isThesis: false },
             { title: "4-2 (충성심)", kor: "시간이 지나면서, 이러한 전략은 더 많은 비용을 들게 하고 직원과 고용주 모두의 스트레스를 증가시키며, 결국 사람들이 매일 출근하는 주된 이유가 된다.", eng: "Over time, such tactics cost more money and increase stress for employee and employer alike, and eventually will become the main reason people show up for work every day.", isThesis: false },
             { title: "4-2 (충성심)", kor: "그것은 충성이 아니다. 그것은 직원판 반복 구매에 불과하다.", eng: "That's not loyalty. That's the employee version of repeat business.", isThesis: false },
             { title: "4-2 (충성심)", kor: "직원들의 충성이란 더 많은 돈이나 혜택을 거절하고 같은 회사에서 계속 일하는 것이다.", eng: "Loyalty among employees is when they turn down more money or benefits to continue working at the same company.", isThesis: true },
@@ -376,20 +450,11 @@
             { title: "5-3 (객관적 증거)", kor: "결국, 과학은 진실이다. 불은 뜨겁고, 바퀴는 효율적이며, 새와 비행기는 날 수 있고, 우리는 혜성에 착륙하고 달을 여행했으며, 항생제는 질병을 치료하고, 예방 접종은 우리가 병에 걸리는 것을 막아준다.", eng: "After all, science is true: fire is hot, the wheel is efficient, birds and planes can fly, we've landed on a comet and traveled to the Moon, antibiotics treat illness, and immunizations keep us from getting sick.", isThesis: false },
             { title: "5-3 (객관적 증거)", kor: "이러한 성취는 객관적인 진리에 의해 가능해진다.", eng: "These accomplishments are made possible by objective truths.", isThesis: false },
             { title: "5-3 (객관적 증거)", kor: "그럴듯한 이론은 과학을 앞으로 나아가게 할 수 있고, 실제로 종종 그렇게 한다.", eng: "A plausible theory can, and frequently does, push science forward.", isThesis: false },
-            { title: "5-3 (객관적 증거)", kor: "그러나 직관에는 그것의 진실성을 확인하거나 반증하는 테스트가 반드시 뒤따라야 강하다.", eng: "However, an intuition must be followed with testing that confirms or disproves its veracity.", isThesis: false },
+            { title: "5-3 (객관적 증거)", kor: "그러나 직관에는 그것의 진실성을 확인하거나 반증하는 테스트가 반드시 뒤따라야 한다.", eng: "However, an intuition must be followed with testing that confirms or disproves its veracity.", isThesis: false },
             { title: "5-3 (객관적 증거)", kor: "만약 이론이 반증된다면, 그것을 가설을 거부하거나 변경할 이유로 고려해야지, 단지 본능적으로 그것에 결합되어 있다는 이유만으로 그 가설을 계속 확고하게 고수할 정당화로 삼아서는 안 된다.", eng: "If a theory is disproved, one should consider it as a reason to reject or alter the hypothesis, not a justification to just keep firmly holding to the hypothesis because you are instinctively wedded to it.", isThesis: false },
             { title: "5-3 (객관적 증거)", kor: "비판적 사고는 절대적인 필수 사항이며, 우리는 증거를 존중해야 한다.", eng: "Critical thinking is an absolute must, and we must respect evidence.", isThesis: true },
             { title: "5-3 (객관적 증거)", kor: "그것은 누구라도 현실에 대한 어떤 것이든 신뢰할 수 있는 유일한 이유이다.", eng: "It's the only reason for anyone to trust anything about reality.", isThesis: false },
             { title: "5-3 (객관적 증거)", kor: "테스트와 증거가 없다면 직관은 유용하지만, 결코 최종적인 결론이 될 수 없다.", eng: "Without testing and evidence, intuition is useful, but it is never the ultimate word.", isThesis: false },
-
-            // 5-4
-            { title: "5-4 (호흡 조절)", kor: "훈련과 경기는 자연스럽게 호흡을 빠르게 하는데, 이것은 교감 신경계를 활성화한다.", eng: "Training and competition naturally speed the breath, which activates the sympathetic nervous system.", isThesis: false },
-            { title: "5-4 (호흡 조절)", kor: "선수는 아드레날린을 생성하고 흥분된 상태에서 경쟁하고 훈련하기를 원하기 때문에 성과적인 측면에서 이것은 수용 가능하다.", eng: "In performance, this is acceptable because an athlete wants to produce adrenaline and compete and train in an aroused state.", isThesis: false },
-            { title: "5-4 (호흡 조절)", kor: "그러나, 선수가 스포츠에서 경험하는 극심한 교감 신경 활동으로부터 정신적, 신체적으로 기어를 낮추는 방법을 배우고, 성과 외의 상황에서는 교감 신경 활동을 줄이고 투쟁 도피 상태를 해결하기 위해 느린 호흡에 주의를 집중하는 것 역시 똑같이 중요하다.", eng: "However, it is equally important for an athlete to learn how to mentally and physically downshift from the acute sympathetic activity experienced in sport, and outside of performance focus their attention on slow breathing to reduce the sympathetic activity and resolve the fight-or-flight state.", isThesis: false },
-            { title: "5-4 (호흡 조절)", kor: "Feinstein 연구소의 연구에서, 참가자들은 뇌의 특정 영역을 활성화하기 위해 그들 호흡의 속도를 사용할 수 있었다.", eng: "In the Feinstein Institutes study, participants were able to use the pace of their breathing to activate specific regions of the brain.", isThesis: false },
-            { title: "5-4 (호흡 조절)", kor: "수행 영역에서, 이것은 선수들이 그들의 흥분 상태를 관리하기 위해 호흡 속도를 사용할 수 있다는 것을 의미한다.", eng: "In a performance realm, this means athletes can use breathing pace to manage their state of arousal.", isThesis: false },
-            { title: "5-4 (호흡 조절)", kor: "훈련과 경기 중에 아드레날린 분비와 함께 호흡 속도가 증가하며, 운동선수는 적응하고 회복할 수 있도록 이를 통제할 수 있어야 한다.", eng: "During training and competition, the breathing rate increases with the introduction of adrenaline, and athletes must be able to control this to be able to adapt and recover.", isThesis: true },
-            { title: "5-4 (호흡 조절)", kor: "한 가지 방법은 훈련과 경기 외의 상황에서 더 느린 호흡 절차를 연습하는 것이다.", eng: "One way is to practice slower breathing protocols outside of training and competition.", isThesis: false },
 
             // 6-1
             { title: "6-1 (통제 가능한 위기)", kor: "오늘날의 대침체와 같은 많은 위기들은 당신이 완전히 이해하기에는, 하물며 통제하기에는 너무 크고 압도적이다.", eng: "Many crises today, such as the Great Recession, are simply too big and too overwhelming for you to completely comprehend, much less control.", isThesis: false },
@@ -401,12 +466,12 @@
             { title: "6-1 (통제 가능한 위기)", kor: "비록 당신이 경제 정책에 영향을 미칠 능력은 없었을지라도, 당신 투자의 분배를 재검토하고 더 다양한 포트폴리오를 만들기로 선택할 수는 있었다.", eng: "Although you probably didn't have the ability to influence economic policy, you were able to revisit the distribution of your investments and choose to create a more diverse portfolio.", isThesis: false },
 
             // 6-2
-            { title: "6-2 (건강 정보의 출처)", kor: "소비자 설문조사는 대다수의 미국인(91%)이 그들의 건강에 대해 어느 정도 통제력을 가지고 있다고 믿으며, 72%는 음식과 영양이 가장 큰 역할을 한다고 믿는다는 것을 보여준다.", eng: "Consumer surveys indicate that the majority of Americans (91%) believe they have some control over their health, and 72% believe that food and nutrition play the greatest role.", isThesis: false },
-            { title: "6-2 (건강 정보의 출처)", kor: "그러나 소비자의 75%는 건강과 영양 정보의 주요 출처로 인터넷을 포함한 대중 매체에 의존하고 있으며, 절반만이 의료 출처를 이용한다.", eng: "However, 75% of consumers rely on media outlets including the Internet as their major sources of health and nutrition information, and only half use medical sources.", isThesis: false },
-            { title: "6-2 (건강 정보의 출처)", kor: "'영양 관련 전자 메일링 리스트'에 대한 구글 검색은 10만 개가 넘는 사이트를 산출했지만, 이 글들 중 많은 수가 영양 전문가들에 의해 검토되지 않았을 가능성이 크다.", eng: "A Google search for nutrition listservs yielded over 100,000 sites, but it is likely that many of these writings are not reviewed by nutrition experts.", isThesis: false },
-            { title: "6-2 (건강 정보의 출처)", kor: "약초, 약품, 건강 기기를 마케팅하는 인터넷 사이트들은 정부 규제 기관에 의해 감시되지 않으며 종종 오해를 불러일으키는 정보를 포함한다.", eng: "Internet sites marketing herbs, drugs, and health devices are not monitored by government regulatory agencies and often contain misleading information.", isThesis: false },
-            { title: "6-2 (건강 정보의 출처)", kor: "평판이 좋은 식품 회사들은 그들 제품의 영양 성분에 대한 유용한 사실을 제공하지만, 판매에 전념하는 상업 사이트들은 종종 오해를 불러일으키는 건강상의 주장을 게시한다.", eng: "Reputable food companies provide helpful facts about the nutrient content of their products, but commercial sites devoted to sales often post misleading health claims.", isThesis: false },
-            { title: "6-2 (건강 정보의 출처)", kor: "정부 기관, 대학, 주립 연장 서비스 및 의료 시설이 유지 관리하는 인터넷 사이트는 증거 기반 정보를 제공하며 공공 정보의 첫 번째 출처가 되어야 한다.", eng: "Internet sites maintained by government agencies, universities, state extension services, and medical facilities provide evidence-based information and should be the first source for public information on foods, nutrition, and health.", isThesis: true },
+            { title: "6-2 (건강 정보)", kor: "소비자 설문조사는 대다수의 미국인(91%)이 그들의 건강에 대해 어느 정도 통제력을 가지고 있다고 믿으며, 72%는 음식과 영양이 가장 큰 역할을 한다고 믿는다는 것을 보여준다.", eng: "Consumer surveys indicate that the majority of Americans (91%) believe they have some control over their health, and 72% believe that food and nutrition play the greatest role.", isThesis: false },
+            { title: "6-2 (건강 정보)", kor: "그러나 소비자의 75%는 건강과 영양 정보의 주요 출처로 인터넷을 포함한 대중 매체에 의존하고 있으며, 절반만이 의료 출처를 이용한다.", eng: "However, 75% of consumers rely on media outlets including the Internet as their major sources of health and nutrition information, and only half use medical sources.", isThesis: false },
+            { title: "6-2 (건강 정보)", kor: "'영양 관련 전자 메일링 리스트'에 대한 구글 검색은 10만 개가 넘는 사이트를 산출했지만, 이 글들 중 많은 수가 영양 전문가들에 의해 검토되지 않았을 가능성이 크다.", eng: "A Google search for nutrition listservs yielded over 100,000 sites, but it is likely that many of these writings are not reviewed by nutrition experts.", isThesis: false },
+            { title: "6-2 (건강 정보)", kor: "약초, 약품, 건강 기기를 마케팅하는 인터넷 사이트들은 정부 규제 기관에 의해 감시되지 않으며 종종 오해를 불러일으키는 정보를 포함한다.", eng: "Internet sites marketing herbs, drugs, and health devices are not monitored by government regulatory agencies and often contain misleading information.", isThesis: false },
+            { title: "6-2 (건강 정보)", kor: "평판이 좋은 식품 회사들은 그들 제품의 영양 성분에 대한 유용한 사실을 제공하지만, 판매에 전념하는 상업 사이트들은 종종 오해를 불러일으키는 건강상의 주장을 게시한다.", eng: "Reputable food companies provide helpful facts about the nutrient content of their products, but commercial sites devoted to sales often post misleading health claims.", isThesis: false },
+            { title: "6-2 (건강 정보)", kor: "정부 기관, 대학, 주립 연장 서비스 및 의료 시설이 유지 관리하는 인터넷 사이트는 증거 기반 정보를 제공하며 공공 정보의 첫 번째 출처가 되어야 한다.", eng: "Internet sites maintained by government agencies, universities, state extension services, and medical facilities provide evidence-based information and should be the first source for public information on foods, nutrition, and health.", isThesis: true },
 
             // 6-3
             { title: "6-3 (서번트 리더십)", kor: "나의 동업자 Charles와 나는 서번트 리더의 일 처리 방식을 수용했다.", eng: "My business partner Charles and I embraced the servant leader's way of doing things.", isThesis: false },
@@ -421,25 +486,27 @@
             { title: "6-3 (서번트 리더십)", kor: "만약 당신의 팀이 난관에 처해 있는 것이 분명하다면, 묻지 말고 뛰어들어라.", eng: "If it's clear your team is in the weeds, jump in without asking.", isThesis: false },
 
             // 6-4
-            { title: "6-4 (문학과 상상력)", kor: "문학 읽기가 다른 삶, 장소, 그리고 시간과의 대리적 동일시와 비교를 통해 제공하는 도피 속에서, 우리는 우리의 현재 환경 밖에 있고 심지어 진짜가 아닐지도 모르는 대안적인 일련의 생각과 경험을 탐구할 수 있는 독특하게 인간적인 능력인 상상력을 활성화한다.", eng: "In the escape that reading literature provides through vicarious identification and comparison with other lives, places, and times, we activate our imagination, that uniquely human ability to explore an alternative set of ideas and experiences that are outside our present environment and that may not even be real.", isThesis: true },
-            { title: "6-4 (문학과 상상력)", kor: "외부 세계(빛, 소리, 모양)로부터 정보를 받아들이고 처리하여 그 안에서 의미(일몰, 교향곡, 집)를 찾는 지각과 반대로, 상상에서는 그 과정이 역전된다.", eng: "As opposed to perception that receives and processes information from the outside world — light, sound, shape — and finds meaning in it — a sunset, a symphony, a house — in imagination, the process is reversed.", isThesis: false },
-            { title: "6-4 (문학과 상상력)", kor: "우리가 읽는 단어들을 그것들이 의미하는 바를 바꾸면서, 우리는 기억으로부터 이미지가 생성되는 내면 세계를 채운다.", eng: "Translating the words we read into what they signify, we populate an inner world in which imagery is created from the memory.", isThesis: false },
-            { title: "6-4 (문학과 상상력)", kor: "예를 들어, 우리는 “집”이라는 단어를 읽고 기억으로부터 집의 표상을 머릿속에 그린다.", eng: "For example, we read “house” and picture a representation of a house from memory.", isThesis: false },
-            { title: "6-4 (문학과 상상력)", kor: "문학이 활성화하여 즐거움을 주는 잠재적인 창의성을 발산하게 하는 것은 지각과 기억의 복잡한 얽힘인 바로 우리의 상상력이다.", eng: "It is our imagination, the complex interweaving of perception and memory that literature activates, releasing a latent creativity that pleases.", isThesis: false },
-            { title: "6-4 (문학과 상상력)", kor: "작가는 청사진을 제공할지 모르지만, 독자는 문학의 많은 방을 짓고, 다른 만족스러운 직업과 마찬가지로, 문학은 우리의 상상력과 창의력을 만족시킨다.", eng: "The writer may provide the blueprint, but the reader builds literature’s many rooms, and like any satisfying occupation, literature gratifies our imaginative and creative abilities.", isThesis: true }
+            { title: "6-4 (호흡 조절)", kor: "훈련과 경기는 자연스럽게 호흡을 빠르게 하는데, 이것은 교감 신경계를 활성화한다.", eng: "Training and competition naturally speed the breath, which activates the sympathetic nervous system.", isThesis: false },
+            { title: "6-4 (호흡 조절)", kor: "선수는 아드레날린을 생성하고 흥분된 상태에서 경쟁하고 훈련하기를 원하기 때문에 성과적인 측면에서 이것은 수용 가능하다.", eng: "In performance, this is acceptable because an athlete wants to produce adrenaline and compete and train in an aroused state.", isThesis: false },
+            { title: "6-4 (호흡 조절)", kor: "그러나, 선수가 스포츠에서 경험하는 극심한 교감 신경 활동으로부터 정신적, 신체적으로 기어를 낮추는 방법을 배우고, 성과 외의 상황에서는 교감 신경 활동을 줄이고 투쟁 도피 상태를 해결하기 위해 느린 호흡에 주의를 집중하는 것 역시 똑같이 중요하다.", eng: "However, it is equally important for an athlete to learn how to mentally and physically downshift from the acute sympathetic activity experienced in sport, and outside of performance focus their attention on slow breathing to reduce the sympathetic activity and resolve the fight-or-flight state.", isThesis: false },
+            { title: "6-4 (호흡 조절)", kor: "Feinstein 연구소의 연구에서, 참가자들은 뇌의 특정 영역을 활성화하기 위해 그들 호흡의 속도를 사용할 수 있었다.", eng: "In the Feinstein Institutes study, participants were able to use the pace of their breathing to activate specific regions of the brain.", isThesis: false },
+            { title: "6-4 (호흡 조절)", kor: "수행 영역에서, 이것은 선수들이 그들의 흥분 상태를 관리하기 위해 호흡 속도를 사용할 수 있다는 것을 의미한다.", eng: "In a performance realm, this means athletes can use breathing pace to manage their state of arousal.", isThesis: false },
+            { title: "6-4 (호흡 조절)", kor: "훈련과 경기 중에 아드레날린 분비와 함께 호흡 속도가 증가하며, 운동선수는 적응하고 회복할 수 있도록 이를 통제할 수 있어야 한다.", eng: "During training and competition, the breathing rate increases with the introduction of adrenaline, and athletes must be able to control this to be able to adapt and recover.", isThesis: true },
+            { title: "6-4 (호흡 조절)", kor: "한 가지 방법은 훈련과 경기 외의 상황에서 더 느린 호흡 절차를 연습하는 것이다.", eng: "One way is to practice slower breathing protocols outside of training and competition.", isThesis: false }
         ];
 
-        // 3단계 고난도 힌트 단어 리스트 통합
         const coreKeywords = [
             "microclimate", "localized", "cathedral", "blueprint", "manifestation",
             "distilled", "gatekeepers", "veracity", "compassion", "comprehend",
             "exacerbate", "regulatory", "reputable", "pitching", "sympathetic",
             "adrenaline", "protocols", "sophisticated", "dissemination", "hypothesis",
-            "immunizations", "plausible", "overwhelming", "vicarious", "perception",
-            "signify", "populate", "imagery", "interweaving", "latent", "gratifies", "occupation"
+            "immunizations", "plausible", "overwhelming"
         ];
+
         let currentQ = [];
         let idx = 0;
+        let clickModePool = [];
+        let clickModeAnswers = [];
 
         function createGrid() {
             const unique = [...new Set(db.map(i => i.title))];
@@ -450,7 +517,11 @@
 
         function toggleAll(s) { document.querySelectorAll('.psg-chk').forEach(c => c.checked = s); }
 
+        // 타이핑 모드 줄 긋기 기능
         function updateStrikeThrough() {
+            const isTypingMode = document.querySelector('input[name="inputMode"]:checked').value === 'typing';
+            if (!isTypingMode) return;
+
             const isEnabled = document.getElementById('useStrikeToggle').checked;
             const hintElements = document.querySelectorAll('.hint-word');
             if (!isEnabled) { hintElements.forEach(el => el.classList.remove('used-word')); return; }
@@ -477,6 +548,56 @@
             if (lv == 1) return words.map(w => w.toLowerCase()).sort(() => Math.random() - 0.5);
             if (lv == 2) return words.filter(w => w.length >= 5 || /[A-Z]/.test(w[0])).map(w => w.toLowerCase());
             if (lv == 3) return words.filter(w => w.length >= 7 || coreKeywords.includes(w.toLowerCase())).map(w => w.toLowerCase());
+        }
+
+        // 클카 모드 (단어 조합) UI 세팅
+        function setupClickModeData() {
+            const q = currentQ[idx];
+            const words = q.eng.replace(/[.;:,—]/g, "").split(" ").filter(w => w.trim() !== "");
+            // 각 단어에 고유 ID 부여하여 셔플
+            clickModePool = words.map((word, i) => ({ id: i, word: word })).sort(() => Math.random() - 0.5);
+            clickModeAnswers = [];
+            renderClickUI();
+        }
+
+        function renderClickUI() {
+            const poolHTML = clickModePool.map(item => {
+                const isUsed = clickModeAnswers.includes(item.id);
+                return `<div class="word-chip ${isUsed ? 'used' : ''}" onclick="addClickWord(${item.id})">${item.word}</div>`;
+            }).join('');
+
+            const answerHTML = clickModeAnswers.map(id => {
+                const item = clickModePool.find(w => w.id === id);
+                return `<div class="word-chip" onclick="removeClickWord(${id})">${item.word}</div>`;
+            }).join('');
+
+            document.getElementById('clickWordPool').innerHTML = poolHTML;
+            document.getElementById('clickAnswerBox').innerHTML = answerHTML || "<span style='color:#94a3b8; font-weight:400;'>아래 단어를 클릭하여 문장을 완성하세요...</span>";
+        }
+
+        function addClickWord(id) {
+            clickModeAnswers.push(id);
+            renderClickUI();
+        }
+
+        function removeClickWord(id) {
+            clickModeAnswers = clickModeAnswers.filter(ansId => ansId !== id);
+            renderClickUI();
+        }
+
+        // 모드 전환 제어기
+        function switchInputMode() {
+            const mode = document.querySelector('input[name="inputMode"]:checked').value;
+            if (mode === 'typing') {
+                document.getElementById('userInput').style.display = 'block';
+                document.getElementById('clickArea').style.display = 'none';
+                updateStrikeThrough();
+            } else {
+                document.getElementById('userInput').style.display = 'none';
+                document.getElementById('clickArea').style.display = 'flex';
+                // 클카 모드로 전환될 때마다 힌트 단어의 취소선을 제거하여 깔끔하게 만듦
+                document.querySelectorAll('.hint-word').forEach(el => el.classList.remove('used-word'));
+            }
         }
 
         function startSession() {
@@ -514,35 +635,32 @@
             document.getElementById('feedback').innerText = "";
             document.getElementById('btnCheck').style.display = 'block';
             document.getElementById('btnNext').style.display = 'none';
-            document.getElementById('btnForceCorrect').style.display = 'none'; // 초기화 시 숨김
 
-            updateStrikeThrough();
+            setupClickModeData();
+            switchInputMode();
         }
 
         function checkAnswer() {
-            const user = document.getElementById('userInput').value.trim().toLowerCase().replace(/[.;:,—]/g, "");
-            const real = currentQ[idx].eng.toLowerCase().replace(/[.;:,—]/g, "");
+            const isTypingMode = document.querySelector('input[name="inputMode"]:checked').value === 'typing';
+            let user = "";
 
-            // 기본적으로 채점 버튼을 숨기고 다음 버튼을 표시
-            document.getElementById('btnCheck').style.display = 'none';
-            document.getElementById('btnNext').style.display = 'block';
+            if (isTypingMode) {
+                user = document.getElementById('userInput').value.trim().toLowerCase().replace(/[.;:,—]/g, "");
+            } else {
+                user = clickModeAnswers.map(id => clickModePool.find(w => w.id === id).word).join(" ").toLowerCase();
+            }
+
+            const real = currentQ[idx].eng.toLowerCase().replace(/[.;:,—]/g, "");
 
             if (user === real) {
                 document.getElementById('feedback').style.color = "var(--success)";
                 document.getElementById('feedback').innerText = "✅ 완벽합니다! 복습 후 다음 문제로 넘어가세요.";
-                document.getElementById('btnForceCorrect').style.display = 'none';
+                document.getElementById('btnCheck').style.display = 'none';
+                document.getElementById('btnNext').style.display = 'block';
             } else {
                 document.getElementById('feedback').style.color = "var(--danger)";
                 document.getElementById('feedback').innerHTML = `❌ 오답입니다.<br><span style="font-size:0.95rem; color:#64748b; font-weight:500;">정답: ${currentQ[idx].eng}</span>`;
-                document.getElementById('btnForceCorrect').style.display = 'block'; // 오답 시 정답 처리 버튼 노출
             }
-        }
-
-        // 수동 정답 처리 함수 추가
-        function forceCorrect() {
-            document.getElementById('feedback').style.color = "var(--success)";
-            document.getElementById('feedback').innerText = "✅ 수동 정답 처리되었습니다! 복습 후 다음 문제로 넘어가세요.";
-            document.getElementById('btnForceCorrect').style.display = 'none';
         }
 
         function skipNext() {
