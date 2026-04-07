@@ -1,385 +1,598 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>영작 실전 마스터 PRO+</title>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        :root { 
-            --primary: #2563eb; --success: #059669; --danger: #dc2626;
-            --bg: #f8fafc; --card-bg: #ffffff; --text: #1e293b;
+
+        :root {
+            --primary: #2563eb;
+            --success: #059669;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
         }
-        body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; line-height: 1.6; }
-        .container { max-width: 850px; margin: 0 auto; }
-        
-        header { text-align: center; padding: 35px 0; background: linear-gradient(135deg, #1e40af, #7c3aed); color: white; border-radius: 24px; margin-bottom: 30px; box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.2); }
-        header h1 { margin: 5px 0 0 0; font-size: 2.2rem; font-weight: 800; letter-spacing: -1.5px; }
-        .header-authors { font-size: 0.95rem; opacity: 0.9; font-weight: 500; letter-spacing: 0.5px; margin-bottom: 5px; }
-        .shout-out { font-size: 0.75rem; opacity: 0.7; margin-left: 5px; font-weight: 400; }
 
-        .card { background: var(--card-bg); padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #f1f5f9; }
-        .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; color: #334155; }
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
-        .checkbox-item { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1.5px solid #f1f5f9; border-radius: 12px; transition: 0.2s; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
-        .checkbox-item:hover { border-color: var(--primary); background: #eff6ff; }
-        
-        select, textarea { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-size: 1rem; box-sizing: border-box; outline: none; transition: border-color 0.2s; }
-        select:focus, textarea:focus { border-color: var(--primary); }
-        textarea { height: 120px; font-family: inherit; resize: none; }
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
 
-        button { cursor: pointer; border: none; border-radius: 12px; padding: 14px 24px; font-weight: 700; transition: 0.2s; font-family: inherit; }
-        .btn-main { background: var(--primary); color: white; width: 100%; font-size: 1.1rem; }
-        .btn-next { background: var(--success); color: white; width: 100%; display: none; }
-        .btn-util { background: #f1f5f9; color: #475569; font-size: 0.85rem; padding: 8px 16px; }
-        .btn-util:hover { background: #e2e8f0; }
+        header {
+            text-align: center;
+            padding: 35px 0;
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+            border-radius: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.2);
+        }
 
-        .switch-container { display: flex; align-items: center; gap: 10px; margin-top: 15px; font-weight: 600; font-size: 0.9rem; }
-        
-        #examArea { display: none; }
-        .exam-control-bar { display: flex; justify-content: space-between; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1.5px dashed #e2e8f0; }
-        
-        .hint-box { background: #fffbeb; border-left: 5px solid #fcd34d; padding: 18px; border-radius: 8px; margin-bottom: 25px; min-height: 40px; }
-        .hint-word { display: inline-block; margin-right: 8px; transition: all 0.2s; font-weight: 500; }
-        .used-word { text-decoration: line-through; opacity: 0.3; color: #94a3b8; }
-        
-        .badge { display: inline-block; padding: 5px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800; margin-bottom: 15px; }
-        .badge-lv1 { background: #dcfce7; color: #15803d; }
-        .badge-lv2 { background: #fef9c3; color: #a16207; }
-        .badge-lv3 { background: #fee2e2; color: #b91c1c; }
+        header h1 {
+            margin: 5px 0 0 0;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+        }
+
+        .header-authors {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .shout-out {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-left: 5px;
+            font-weight: 400;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: #334155;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border: 1.5px solid #f1f5f9;
+            border-radius: 12px;
+            transition: 0.2s;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1.5px solid #e2e8f0;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary);
+        }
+
+        textarea {
+            height: 120px;
+            font-family: inherit;
+            resize: none;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-weight: 700;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-main {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        .btn-next {
+            background: var(--success);
+            color: white;
+            width: 100%;
+            display: none;
+        }
+
+        .btn-util {
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 0.85rem;
+            padding: 8px 16px;
+        }
+
+        .btn-util:hover {
+            background: #e2e8f0;
+        }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        #examArea {
+            display: none;
+        }
+
+        .exam-control-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1.5px dashed #e2e8f0;
+        }
+
+        .hint-box {
+            background: #fffbeb;
+            border-left: 5px solid #fcd34d;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            min-height: 40px;
+        }
+
+        .hint-word {
+            display: inline-block;
+            margin-right: 8px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .used-word {
+            text-decoration: line-through;
+            opacity: 0.3;
+            color: #94a3b8;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .badge-lv1 {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-lv2 {
+            background: #fef9c3;
+            color: #a16207;
+        }
+
+        .badge-lv3 {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <header>
-        <div class="header-authors">
-            made by 민건희, 정서진 <span class="shout-out">(shout out 이용휘T)</span>
-        </div>
-        <h1>영작 실전 마스터</h1>
-    </header>
+    <div class="container">
+        <header>
+            <div class="header-authors">
+                made by 민건희, 정서진 <span class="shout-out">(shout out 이용휘T)</span>
+            </div>
+            <h1>영작 실전 마스터</h1>
+        </header>
 
-    <div class="card" id="setupCard">
-        <div class="section-title">📖 지문 선택 및 학습 설정</div>
-        <div class="grid" id="passageGrid"></div>
-        <div style="margin-top:20px; display:flex; gap:10px;">
-            <button class="btn-util" onclick="toggleAll(true)">전체 선택</button>
-            <button class="btn-util" onclick="toggleAll(false)">전체 해제</button>
-        </div>
+        <div class="card" id="setupCard">
+            <div class="section-title">📖 지문 선택 및 학습 설정</div>
+            <div class="grid" id="passageGrid"></div>
+            <div style="margin-top:20px; display:flex; gap:10px;">
+                <button class="btn-util" onclick="toggleAll(true)">전체 선택</button>
+                <button class="btn-util" onclick="toggleAll(false)">전체 해제</button>
+            </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
-            <div>
-                <div class="section-title">🎯 모드 및 순서</div>
-                <select id="modeSelect">
-                    <option value="practical">실속 모드 (주장문 위주)</option>
-                    <option value="perfect" selected>100점을 향해 (전체 문장)</option>
-                </select>
-                <div class="switch-container">
-                    <input type="checkbox" id="orderToggle" checked> 
-                    <label for="orderToggle">문장 순서대로 학습하기</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
+                <div>
+                    <div class="section-title">🎯 모드 및 순서</div>
+                    <select id="modeSelect">
+                        <option value="practical">실속 모드 (주장문 위주)</option>
+                        <option value="perfect" selected>100점을 향해 (전체 문장)</option>
+                    </select>
+                    <div class="switch-container">
+                        <input type="checkbox" id="orderToggle" checked>
+                        <label for="orderToggle">문장 순서대로 학습하기</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="section-title">⚡ 난이도 및 옵션</div>
+                    <div style="display:flex; gap:12px; margin-bottom:10px;">
+                        <label><input type="checkbox" class="lv-chk" value="1" checked> 1단</label>
+                        <label><input type="checkbox" class="lv-chk" value="2"> 2단</label>
+                        <label><input type="checkbox" class="lv-chk" value="3"> 3단</label>
+                    </div>
+                    <div class="switch-container">
+                        <input type="checkbox" id="useStrikeToggle" checked onchange="updateStrikeThrough()">
+                        <label for="useStrikeToggle">사용한 단어 표시</label>
+                    </div>
                 </div>
             </div>
-            <div>
-                <div class="section-title">⚡ 난이도 및 옵션</div>
-                <div style="display:flex; gap:12px; margin-bottom:10px;">
-                    <label><input type="checkbox" class="lv-chk" value="1" checked> 1단</label>
-                    <label><input type="checkbox" class="lv-chk" value="2"> 2단</label>
-                    <label><input type="checkbox" class="lv-chk" value="3"> 3단</label>
+            <button class="btn-main" style="margin-top:30px;" onclick="startSession()">테스트 시작하기</button>
+        </div>
+
+        <div id="examArea">
+            <div class="card">
+                <div class="exam-control-bar">
+                    <button class="btn-util" style="background:#fee2e2; color:#b91c1c;" onclick="endSession()">⏹ 학습
+                        끝내기</button>
+                    <button class="btn-util" onclick="skipNext()">⏭ 다음 문장 스킵</button>
                 </div>
-                <div class="switch-container">
-                    <input type="checkbox" id="useStrikeToggle" checked onchange="updateStrikeThrough()"> 
-                    <label for="useStrikeToggle">사용한 단어 표시</label>
+                <div id="lvBadgeContainer"></div>
+                <div id="korQ"
+                    style="font-size:1.3rem; font-weight:800; margin-bottom:25px; color: #0f172a; line-height:1.4;">
                 </div>
+                <div id="hintArea" class="hint-box"></div>
+                <textarea id="userInput" placeholder="영문장을 입력하세요... (대소문자 무관)"
+                    oninput="updateStrikeThrough()"></textarea>
+
+                <div style="display:flex; gap:12px; margin-top:25px;">
+                    <button id="btnCheck" class="btn-main" style="flex: 2;" onclick="checkAnswer()">채점 및 정답확인</button>
+                    <button id="btnNext" class="btn-next" style="flex: 2;" onclick="skipNext()">다음 문제로 👉</button>
+                    <button id="btnForceCorrect" class="btn-util"
+                        style="flex: 1; background:#10b981; color:white; display:none;" onclick="forceCorrect()">정답
+                        처리</button>
+                    <button class="btn-util" style="flex: 1; background:#f97316; color:white;"
+                        onclick="saveToWrongNote()">오답 저장</button>
+                </div>
+
+                <div id="feedback" style="margin-top:20px; font-weight:700; font-size:1.1rem;"></div>
             </div>
         </div>
-        <button class="btn-main" style="margin-top:30px;" onclick="startSession()">테스트 시작하기</button>
-    </div>
 
-    <div id="examArea">
         <div class="card">
-            <div class="exam-control-bar">
-                <button class="btn-util" style="background:#fee2e2; color:#b91c1c;" onclick="endSession()">⏹ 학습 끝내기</button>
-                <button class="btn-util" onclick="skipNext()">⏭ 다음 문장 스킵</button>
-            </div>
-            <div id="lvBadgeContainer"></div>
-            <div id="korQ" style="font-size:1.3rem; font-weight:800; margin-bottom:25px; color: #0f172a; line-height:1.4;"></div>
-            <div id="hintArea" class="hint-box"></div>
-            <textarea id="userInput" placeholder="영문장을 입력하세요... (대소문자 무관)" oninput="updateStrikeThrough()"></textarea>
-            <div style="display:flex; gap:12px; margin-top:25px;">
-                <button id="btnCheck" class="btn-main" style="flex: 2;" onclick="checkAnswer()">채점 및 정답확인</button>
-                <button id="btnNext" class="btn-next" style="flex: 2;" onclick="skipNext()">다음 문제로 👉</button>
-                <button class="btn-util" style="flex: 1; background:#f97316; color:white;" onclick="saveToWrongNote()">오답 저장</button>
-            </div>
-            <div id="feedback" style="margin-top:20px; font-weight:700; font-size:1.1rem;"></div>
+            <div class="section-title">📓 누적 오답 복습</div>
+            <div id="wrongNoteDisplay">기록된 오답이 없습니다.</div>
+            <button class="btn-util" style="margin-top:20px; color:var(--danger); width:100%;" onclick="clearNotes()">오답
+                기록 초기화</button>
         </div>
     </div>
 
-    <div class="card">
-        <div class="section-title">📓 누적 오답 복습</div>
-        <div id="wrongNoteDisplay">기록된 오답이 없습니다.</div>
-        <button class="btn-util" style="margin-top:20px; color:var(--danger); width:100%;" onclick="clearNotes()">오답 기록 초기화</button>
-    </div>
-</div>
+    <script>
+        // 전체 지문 데이터베이스 (이전과 동일하게 유지)
+        const db = [
+            // 4-1
+            { title: "4-1 (미시 기후)", kor: "야외에서도 기후는 보통 인간의 통제 밖에 있다고 여겨지지만, 국지적인 온도 조절은 미시 기후 규모에서는 때때로 효과적이다.", eng: "Even outdoors, although climate is usually regarded as beyond the control of man, localized temperature control is sometimes effective on a microclimate scale.", isThesis: true },
+            { title: "4-1 (미시 기후)", kor: "캐나다의 밴쿠버는 북위 49도선에서 몇 마일 북쪽에 있으며, 혹독한 겨울로 유명한 노스다코타의 마이노트보다 약 60마일 더 북쪽에 있다.", eng: "Vancouver, Canada, is a few miles north of the 49th parallel, about 60 miles farther north than Minot, North Dakota, with its legendary harsh winter temperatures.", isThesis: false },
+            { title: "4-1 (미시 기후)", kor: "그러나 태평양에서 불어오는 지속적인 푄 바람이 햇빛은 부족할지라도 밴쿠버의 겨울을 온화하고 습하게 만든다.", eng: "But constant foehn winds off the Pacific Ocean make Vancouver winters mild and wet, although sunshine is scant.", isThesis: false },
+            { title: "4-1 (미시 기후)", kor: "내가 1940년대 후반 그곳에서 정원을 가꿀 때, 한 이웃은 내가 다른 누구보다 상추와 토마토를 더 일찍 수확한다고 '신을 속였다'고 말하곤 했다.", eng: "When I had a garden there in the late 1940s, a neighbor used to say that I cheated God to bring in my lettuce and tomatoes earlier than anyone else.", isThesis: false },
+            { title: "4-1 (미시 기후)", kor: "채소가 자라던 밭은 남쪽을 향해 약 50도 기울어져 있었고, 식물 사이의 공간은 늦겨울과 초봄의 약한 햇빛으로부터 토양 가열을 극대화하기 위해 근처 해변에서 가져온 납작한 돌들로 덮여 있었다.", eng: "The bed in which the vegetables grew was banked toward the south at approximately 50 degrees, and the area between the plants was covered with flat stones, gathered from the nearby beach, to maximize soil heating from the weak late winter early spring sun.", isThesis: false },
 
-<script>
-// 전체 지문 데이터베이스 (4-1 ~ 6-3, 5-4 포함)
-const db = [
-    // 4-1
-    { title: "4-1 (미시 기후)", kor: "야외에서도 기후는 보통 인간의 통제 밖에 있다고 여겨지지만, 국지적인 온도 조절은 미시 기후 규모에서는 때때로 효과적이다.", eng: "Even outdoors, although climate is usually regarded as beyond the control of man, localized temperature control is sometimes effective on a microclimate scale.", isThesis: true },
-    { title: "4-1 (미시 기후)", kor: "캐나다의 밴쿠버는 북위 49도선에서 몇 마일 북쪽에 있으며, 혹독한 겨울로 유명한 노스다코타의 마이노트보다 약 60마일 더 북쪽에 있다.", eng: "Vancouver, Canada, is a few miles north of the 49th parallel, about 60 miles farther north than Minot, North Dakota, with its legendary harsh winter temperatures.", isThesis: false },
-    { title: "4-1 (미시 기후)", kor: "그러나 태평양에서 불어오는 지속적인 푄 바람이 햇빛은 부족할지라도 밴쿠버의 겨울을 온화하고 습하게 만든다.", eng: "But constant foehn winds off the Pacific Ocean make Vancouver winters mild and wet, although sunshine is scant.", isThesis: false },
-    { title: "4-1 (미시 기후)", kor: "내가 1940년대 후반 그곳에서 정원을 가꿀 때, 한 이웃은 내가 다른 누구보다 상추와 토마토를 더 일찍 수확한다고 '신을 속였다'고 말하곤 했다.", eng: "When I had a garden there in the late 1940s, a neighbor used to say that I cheated God to bring in my lettuce and tomatoes earlier than anyone else.", isThesis: false },
-    { title: "4-1 (미시 기후)", kor: "채소가 자라던 밭은 남쪽을 향해 약 50도 기울어져 있었고, 식물 사이의 공간은 늦겨울과 초봄의 약한 햇빛으로부터 토양 가열을 극대화하기 위해 근처 해변에서 가져온 납작한 돌들로 덮여 있었다.", eng: "The bed in which the vegetables grew was banked toward the south at approximately 50 degrees, and the area between the plants was covered with flat stones, gathered from the nearby beach, to maximize soil heating from the weak late winter early spring sun.", isThesis: false },
+            // 4-2
+            { title: "4-2 (충성심)", kor: "사람들에게 일을 하도록 동기를 부여하기 위해 조직에 에너지를 언제든지 주입할 수 있다.", eng: "Energy can always be injected into an organization to motivate people to do things.", isThesis: false },
+            { title: "4-2 (충성심)", kor: "보너스, 승진, 다른 보상들, 심지어 약간의 처벌까지도 확실히 사람들을 더 열심히 일하게 만들 수 있지만, 그러한 성과는 모든 조작과 마찬가지로 단기적이다.", eng: "Over time, such tactics cost more money and increase stress for employee and employer alike, and eventually will become the main reason people show up for work every day.", isThesis: false },
+            { title: "4-2 (충성심)", kor: "시간이 지나면서, 이러한 전략은 더 많은 비용을 들게 하고 직원과 고용주 모두의 스트레스를 증가시키며, 결국 사람들이 매일 출근하는 주된 이유가 된다.", eng: "Over time, such tactics cost more money and increase stress for employee and employer alike, and eventually will become the main reason people show up for work every day.", isThesis: false },
+            { title: "4-2 (충성심)", kor: "그것은 충성이 아니다. 그것은 직원판 반복 구매에 불과하다.", eng: "That's not loyalty. That's the employee version of repeat business.", isThesis: false },
+            { title: "4-2 (충성심)", kor: "직원들의 충성이란 더 많은 돈이나 혜택을 거절하고 같은 회사에서 계속 일하는 것이다.", eng: "Loyalty among employees is when they turn down more money or benefits to continue working at the same company.", isThesis: true },
+            { title: "4-2 (충성심)", kor: "회사에 대한 충성은 급여와 복지보다 더 중요하다.", eng: "Loyalty to a company trumps pay and benefits.", isThesis: false },
+            { title: "4-2 (충성심)", kor: "그리고 당신이 우주비행사가 아닌 이상, 우리가 하는 일이 우리에게 영감을 주는 것도 아니다.", eng: "And unless you're an astronaut, it's not the work we do that inspires us either.", isThesis: false },
+            { title: "4-2 (충성심)", kor: "우리가 일을 하러 오는 이유는 '목적' 때문이다.", eng: "It's the cause that we come to work for.", isThesis: false },
+            { title: "4-2 (충성심)", kor: "우리는 단순히 벽을 쌓기 위해 일하러 오는 것이 아니라, 성당을 짓기 위해 일하러 오고 싶어 한다.", eng: "We don't want to come to work to build a wall; we want to come to work to build a cathedral.", isThesis: true },
 
-    // 4-2
-    { title: "4-2 (충성심)", kor: "사람들에게 일을 하도록 동기를 부여하기 위해 조직에 에너지를 언제든지 주입할 수 있다.", eng: "Energy can always be injected into an organization to motivate people to do things.", isThesis: false },
-    { title: "4-2 (충성심)", kor: "보너스, 승진, 다른 보상들, 심지어 약간의 처벌까지도 확실히 사람들을 더 열심히 일하게 만들 수 있지만, 그러한 성과는 모든 조작과 마찬가지로 단기적이다.", eng: "Bonuses, promotions, other carrots, and even a few sticks can get people to work harder, for sure, but the gains are, like all manipulations, short-term.", isThesis: false },
-    { title: "4-2 (충성심)", kor: "시간이 지나면서, 이러한 전략은 더 많은 비용을 들게 하고 직원과 고용주 모두의 스트레스를 증가시키며, 결국 사람들이 매일 출근하는 주된 이유가 된다.", eng: "Over time, such tactics cost more money and increase stress for employee and employer alike, and eventually will become the main reason people show up for work every day.", isThesis: false },
-    { title: "4-2 (충성심)", kor: "그것은 충성이 아니다. 그것은 직원판 반복 구매에 불과하다.", eng: "That's not loyalty. That's the employee version of repeat business.", isThesis: false },
-    { title: "4-2 (충성심)", kor: "직원들의 충성이란 더 많은 돈이나 혜택을 거절하고 같은 회사에서 계속 일하는 것이다.", eng: "Loyalty among employees is when they turn down more money or benefits to continue working at the same company.", isThesis: true },
-    { title: "4-2 (충성심)", kor: "회사에 대한 충성은 급여와 복지보다 더 중요하다.", eng: "Loyalty to a company trumps pay and benefits.", isThesis: false },
-    { title: "4-2 (충성심)", kor: "그리고 당신이 우주비행사가 아닌 이상, 우리가 하는 일이 우리에게 영감을 주는 것도 아니다.", eng: "And unless you're an astronaut, it's not the work we do that inspires us either.", isThesis: false },
-    { title: "4-2 (충성심)", kor: "우리가 일을 하러 오는 이유는 '목적' 때문이다.", eng: "It's the cause that we come to work for.", isThesis: false },
-    { title: "4-2 (충성심)", kor: "우리는 단순히 벽을 쌓기 위해 일하러 오는 것이 아니라, 성당을 짓기 위해 일하러 오고 싶어 한다.", eng: "We don't want to come to work to build a wall; we want to come to work to build a cathedral.", isThesis: true },
+            // 4-3
+            { title: "4-3 (역사-DNA)", kor: "1960년대 초, 위대한 미국 작가 제임스 볼드윈은 '사람들은 역사에 갇혀 있고, 역사는 그들 안에 갇혀 있다'라고 썼다.", eng: "In the early 1960s the great American writer James Baldwin wrote: People are trapped in history, and history is trapped in them.", isThesis: false },
+            { title: "4-3 (역사-DNA)", kor: "그는 그 말을 쓸 때 인종 문제를 염두에 두고 있었다.", eng: "He was speaking to race when he penned those words.", isThesis: false },
+            { title: "4-3 (역사-DNA)", kor: "그러나 '사람들'이라는 단어를 '지구상의 모든 생명체(현재와 과거)'로 바꿔도 그 말은 똑같이 사실이다.", eng: "But the statement is equally true if the word people is replaced with all of life on Earth, present and past.", isThesis: false },
+            { title: "4-3 (역사-DNA)", kor: "왜냐하면 우리 세포 속 각각의 DNA 가닥은 단순한 코드로 쓰여 세대를 거쳐 전해진 생물학적 역사의 고대 기록이기 때문이다.", eng: "For each strand of DNA, in each of our cells, is an ancient record of biological history, written in simple code and passed down from generation to generation.", isThesis: true },
+            { title: "4-3 (역사-DNA)", kor: "DNA는 그 자체가 곧 역사라고 말할 수 있으며, 그것은 자연선택에 의해 수많은 세월 동안 서서히 혼합되고 축적된 물리적 형태를 가진 역사이다.", eng: "One could say that DNA is nothing but history, one with a physical manifestation that was slowly blended and accumulated over countless eons by the most pitiless of all phenomena — natural selection.", isThesis: false },
+            { title: "4-3 (역사-DNA)", kor: "DNA는 우리 안에 있는 역사이지만 동시에 우리를 지배하는 존재이기도 하다.", eng: "DNA is a history that is inside us — and yet one that is our master as well, the blueprint for our bodies, and dictator of what we will pass on to our children, gifts that can be blessings — or deadly time bombs.", isThesis: true },
+            { title: "4-3 (역사-DNA)", kor: "우리는 이 특정한 역사의 매개체에 갇혀 있으며, 그것 역시 우리 안에 갇혀 있는 것이 사실이다.", eng: "We are indeed trapped in this particular vehicle of history as much as it is trapped in us.", isThesis: false },
 
-    // 4-3
-    { title: "4-3 (역사-DNA)", kor: "1960년대 초, 위대한 미국 작가 제임스 볼드윈은 '사람들은 역사에 갇혀 있고, 역사는 그들 안에 갇혀 있다'라고 썼다.", eng: "In the early 1960s the great American writer James Baldwin wrote: People are trapped in history, and history is trapped in them.", isThesis: false },
-    { title: "4-3 (역사-DNA)", kor: "그는 그 말을 쓸 때 인종 문제를 염두에 두고 있었다.", eng: "He was speaking to race when he penned those words.", isThesis: false },
-    { title: "4-3 (역사-DNA)", kor: "그러나 '사람들'이라는 단어를 '지구상의 모든 생명체(현재와 과거)'로 바꿔도 그 말은 똑같이 사실이다.", eng: "But the statement is equally true if the word people is replaced with all of life on Earth, present and past.", isThesis: false },
-    { title: "4-3 (역사-DNA)", kor: "왜냐하면 우리 세포 속 각각의 DNA 가닥은 단순한 코드로 쓰여 세대를 거쳐 전해진 생물학적 역사의 고대 기록이기 때문이다.", eng: "For each strand of DNA, in each of our cells, is an ancient record of biological history, written in simple code and passed down from generation to generation.", isThesis: true },
-    { title: "4-3 (역사-DNA)", kor: "DNA는 그 자체가 곧 역사라고 말할 수 있으며, 그것은 자연선택에 의해 수많은 세월 동안 서서히 혼합되고 축적된 물리적 형태를 가진 역사이다.", eng: "One could say that DNA is nothing but history, one with a physical manifestation that was slowly blended and accumulated over countless eons by the most pitiless of all phenomena — natural selection.", isThesis: false },
-    { title: "4-3 (역사-DNA)", kor: "DNA는 우리 안에 있는 역사이지만 동시에 우리를 지배하는 존재이기도 하다.", eng: "DNA is a history that is inside us — and yet one that is our master as well, the blueprint for our bodies, and dictator of what we will pass on to our children, gifts that can be blessings — or deadly time bombs.", isThesis: true },
-    { title: "4-3 (역사-DNA)", kor: "우리는 이 특정한 역사의 매개체에 갇혀 있으며, 그것 역시 우리 안에 갇혀 있는 것이 사실이다.", eng: "We are indeed trapped in this particular vehicle of history as much as it is trapped in us.", isThesis: false },
+            // 4-4
+            { title: "4-4 (사고의 두려움)", kor: "사람들은 게으름이나 능력 부족과 같은 다양한 이유로 비판적으로 사고하지 않을 수 있지만, 두려움이 큰 이유 중 하나이다.", eng: "People may not think critically for a variety of reasons, such as laziness and inability, but fear is a big one.", isThesis: false },
+            { title: "4-4 (사고의 두려움)", kor: "이것이 왜 그럴까? 사람들은 단지 생각하는 것이 어렵기 때문만이 아니라, 오랫동안 가지고 있던 신념을 의심하게 될까 봐 두려워하기 때문에 생각하려 하지 않는다.", eng: "Why is that? People don't want to think not just because it's hard, but also because they're afraid it will make them question their long-held beliefs.", isThesis: false },
+            { title: "4-4 (사고의 두려움)", kor: "여러분의 학생들은 정치, 윤리, 철학처럼 매우 논쟁적일 수 있는 것들에 대해 생각하기를 가장 원할 것이다.", eng: "Your students most likely do want to think about things that can be very controversial, like politics, ethics, and philosophy.", isThesis: false },
+            { title: "4-4 (사고의 두려움)", kor: "하지만 더 깊이 파고들어 보라. 우리가 깊이 생각하기 시작하면, 오래된 가정들이 도전을 받게 된다.", eng: "But probe even deeper. Once we start thinking deeply, long-held assumptions are challenged.", isThesis: false },
+            { title: "4-4 (사고의 두려움)", kor: "사고는 우리가 균형을 잃고 세상을 다른 방식으로 보게 될까 봐 걱정하게 만든다.", eng: "Thought makes us worry that we'll lose our balance and have to look at the world in a different way.", isThesis: false },
+            { title: "4-4 (사고의 두려움)", kor: "우리는 우리 자신과 다른 사람들이 무엇을 생각하는지 중요하게 여기기 때문에 사고를 두려워한다.", eng: "We worry about thinking because we care about what we and other people think.", isThesis: false },
+            { title: "4-4 (사고의 두려움)", kor: "가장 터무니없는 아이디어조차 세상에 영향을 미친다.", eng: "Even the most far-fetched ideas have an effect on the world.", isThesis: false },
+            { title: "4-4 (사고의 두려움)", kor: "비유클리드 기하학과 기호 논리는 추상적일 수 있는 한계에 가깝지만, 첫 번째가 없으면 아인슈타인의 중력을 이해할 수 없고 두 번째가 없으면 컴퓨터를 작동시킬 수 없다.", eng: "Non-Euclidean geometry and symbolic logic are about as abstract as thinking can get, but you can't understand Einsteinian gravity without the first and run computers without the second.", isThesis: false },
+            { title: "4-4 (사고의 두려움)", kor: "사고는 우리에게도, 타인에게도, 그리고 우리가 사는 세상에도 중요하다.", eng: "Thinking is important to us, to others, and to the world we live in.", isThesis: false },
+            { title: "4-4 (사고의 두려움)", kor: "이것이 우리가 사고를 그렇게 두려워하는 이유 중 하나인데, 그것이 우리를 근본적으로 흔들기 때문이다.", eng: "This is one reason why we are so afraid of it: it shakes us to the core.", isThesis: true },
 
-    // 4-4
-    { title: "4-4 (사고의 두려움)", kor: "사람들은 게으름이나 능력 부족과 같은 다양한 이유로 비판적으로 사고하지 않을 수 있지만, 두려움이 큰 이유 중 하나이다.", eng: "People may not think critically for a variety of reasons, such as laziness and inability, but fear is a big one.", isThesis: false },
-    { title: "4-4 (사고의 두려움)", kor: "이것이 왜 그럴까? 사람들은 단지 생각하는 것이 어렵기 때문만이 아니라, 오랫동안 가지고 있던 신념을 의심하게 될까 봐 두려워하기 때문에 생각하려 하지 않는다.", eng: "Why is that? People don't want to think not just because it's hard, but also because they're afraid it will make them question their long-held beliefs.", isThesis: false },
-    { title: "4-4 (사고의 두려움)", kor: "여러분의 학생들은 정치, 윤리, 철학처럼 매우 논쟁적일 수 있는 것들에 대해 생각하기를 가장 원할 것이다.", eng: "Your students most likely do want to think about things that can be very controversial, like politics, ethics, and philosophy.", isThesis: false },
-    { title: "4-4 (사고의 두려움)", kor: "하지만 더 깊이 파고들어 보라. 우리가 깊이 생각하기 시작하면, 오래된 가정들이 도전을 받게 된다.", eng: "But probe even deeper. Once we start thinking deeply, long-held assumptions are challenged.", isThesis: false },
-    { title: "4-4 (사고의 두려움)", kor: "사고는 우리가 균형을 잃고 세상을 다른 방식으로 보게 될까 봐 걱정하게 만든다.", eng: "Thought makes us worry that we'll lose our balance and have to look at the world in a different way.", isThesis: false },
-    { title: "4-4 (사고의 두려움)", kor: "우리는 우리 자신과 다른 사람들이 무엇을 생각하는지 중요하게 여기기 때문에 사고를 두려워한다.", eng: "We worry about thinking because we care about what we and other people think.", isThesis: false },
-    { title: "4-4 (사고의 두려움)", kor: "가장 터무니없는 아이디어조차 세상에 영향을 미친다.", eng: "Even the most far-fetched ideas have an effect on the world.", isThesis: false },
-    { title: "4-4 (사고의 두려움)", kor: "비유클리드 기하학과 기호 논리는 추상적일 수 있는 한계에 가깝지만, 첫 번째가 없으면 아인슈타인의 중력을 이해할 수 없고 두 번째가 없으면 컴퓨터를 작동시킬 수 없다.", eng: "Non-Euclidean geometry and symbolic logic are about as abstract as thinking can get, but you can't understand Einsteinian gravity without the first and run computers without the second.", isThesis: false },
-    { title: "4-4 (사고의 두려움)", kor: "사고는 우리에게도, 타인에게도, 그리고 우리가 사는 세상에도 중요하다.", eng: "Thinking is important to us, to others, and to the world we live in.", isThesis: false },
-    { title: "4-4 (사고의 두려움)", kor: "이것이 우리가 사고를 그렇게 두려워하는 이유 중 하나인데, 그것이 우리를 근본적으로 흔들기 때문이다.", eng: "This is one reason why we are so afraid of it: it shakes us to the core.", isThesis: true },
+            // 5-1
+            { title: "5-1 (지식과 태양 에너지)", kor: "'정보를 먹을 수는 없다'라는 말이 있다.", eng: "There's a saying that you can't eat information.", isThesis: false },
+            { title: "5-1 (지식과 태양 에너지)", kor: "그럴지도 모르지만, 오늘날 우리가 먹는 음식은 수천 년에 걸쳐 점진적으로 향상된 고품질 정보, 즉 농사법에 대한 지식의 결실이다.", eng: "That may be so, but the food we eat today is the fruit of thousands of years of increasingly high-quality information — the knowledge of how to farm — what seeds, what tools and how to use them, what times of year, what irrigation, what sequence of one crop after another on the same land.", isThesis: false },
+            { title: "5-1 (지식과 태양 에너지)", kor: "우리가 먹는 것은 인간의 지식을 통해 여과되고, 농축되고, 정제된 태양 에너지이다.", eng: "What we eat is solar energy, filtered, concentrated, and distilled through the lens of human knowledge.", isThesis: true },
+            { title: "5-1 (지식과 태양 에너지)", kor: "지구가 매년 태양으로부터 받는 에너지는 인류 문명 전체를 통틀어 다소 일정하게 유지되어 왔다.", eng: "The energy the Earth receives from the sun each year has remained more or less constant through all of human civilization.", isThesis: false },
+            { title: "5-1 (지식과 태양 에너지)", kor: "우리가 번창할 수 있었던 것은 우리 몸에 연료를 공급할 수 있는 형태로, 여전히 극히 일부이지만 계속 증가하고 있는 그 에너지의 일부를 포착하는 방법에 대한 우리의 점점 더 정교해지는 지식 덕분이다.", eng: "What's allowed us to flourish is our increasingly sophisticated knowledge of how to capture an ever-growing but still tiny fraction of that energy in a form that can fuel our bodies.", isThesis: false },
+            { title: "5-1 (지식과 태양 에너지)", kor: "지식 발전의 모든 단계는 우리가 이용할 수 있는 에너지 양의 증가를 수반해 왔다.", eng: "Every step in the advancement of our knowledge has brought with it an increase in the amount of energy we can tap into.", isThesis: false },
 
-    // 5-1
-    { title: "5-1 (지식과 태양 에너지)", kor: "'정보를 먹을 수는 없다'라는 말이 있다.", eng: "There's a saying that you can't eat information.", isThesis: false },
-    { title: "5-1 (지식과 태양 에너지)", kor: "그럴지도 모르지만, 오늘날 우리가 먹는 음식은 수천 년에 걸쳐 점진적으로 향상된 고품질 정보, 즉 농사법에 대한 지식의 결실이다.", eng: "That may be so, but the food we eat today is the fruit of thousands of years of increasingly high-quality information — the knowledge of how to farm — what seeds, what tools and how to use them, what times of year, what irrigation, what sequence of one crop after another on the same land.", isThesis: false },
-    { title: "5-1 (지식과 태양 에너지)", kor: "우리가 먹는 것은 인간의 지식을 통해 여과되고, 농축되고, 정제된 태양 에너지이다.", eng: "What we eat is solar energy, filtered, concentrated, and distilled through the lens of human knowledge.", isThesis: true },
-    { title: "5-1 (지식과 태양 에너지)", kor: "지구가 매년 태양으로부터 받는 에너지는 인류 문명 전체를 통틀어 다소 일정하게 유지되어 왔다.", eng: "The energy the Earth receives from the sun each year has remained more or less constant through all of human civilization.", isThesis: false },
-    { title: "5-1 (지식과 태양 에너지)", kor: "우리가 번창할 수 있었던 것은 우리 몸에 연료를 공급할 수 있는 형태로, 여전히 극히 일부이지만 계속 증가하고 있는 그 에너지의 일부를 포착하는 방법에 대한 우리의 점점 더 정교해지는 지식 덕분이다.", eng: "What's allowed us to flourish is our increasingly sophisticated knowledge of how to capture an ever-growing but still tiny fraction of that energy in a form that can fuel our bodies.", isThesis: false },
-    { title: "5-1 (지식과 태양 에너지)", kor: "지식 발전의 모든 단계는 우리가 이용할 수 있는 에너지 양의 증가를 수반해 왔다.", eng: "Every step in the advancement of our knowledge has brought with it an increase in the amount of energy we can tap into.", isThesis: false },
+            // 5-2
+            { title: "5-2 (정보의 민주화)", kor: "전문 언론인들에 의한 지역사회 참여 증가는 그 자체만으로는 뉴스를 모든 사람에게 더 관련성 있게 만드는 문제를 해결하지 못할 것인데, 전통적인 뉴스 조직들이 이미 많은 지역사회를 버려두고 뉴스 사막을 뒤에 남겨두었기 때문이다.", eng: "Increased community engagement by professional journalists, on their own, will not solve the problem of making the news more relevant to everyone because traditional news organizations already have abandoned many communities, leaving behind news deserts.", isThesis: false },
+            { title: "5-2 (정보의 민주화)", kor: "그런 곳에서, 시민들은 정보를 발견하고, 권력자에게 책임을 묻고, 그들 자신과 이웃을 위해 뉴스를 전달하는 책임을 져야 한다.", eng: "In those places, citizens must take up the responsibility for discovering information, holding the powerful accountable, and telling the news for themselves and their neighbors.", isThesis: false },
+            { title: "5-2 (정보의 민주화)", kor: "컴퓨터와 인터넷에 의해 야기된 파괴적 혁신을 통한 정보의 민주화는, 시민들이 이전에는 존재하지 않았던 방식으로 지역 뉴스의 통제권을 되찾을 수 있게 해 주며, 그들이 발견하거나 안다고 생각하는 것을 수집하고 퍼뜨리는 데 더 큰 주의를 기울이도록 요구한다.", eng: "The democratization of information — through the disruptions caused by computers and the internet — allows citizens to retake control of local news in ways that never have existed before, and it calls them to take greater care in the gathering and dissemination of what they discover or think they know.", isThesis: false },
+            { title: "5-2 (정보의 민주화)", kor: "저널리즘은 아마도 그 어느 때보다도 전문 기자, 부유한 출판업자, 혹은 심지어 기업 주주들보다는 대중에게 속해 있다.", eng: "Journalism, perhaps like never before, belongs to the people rather than to professional journalists, wealthy publishers, or even corporate shareholders.", isThesis: false },
+            { title: "5-2 (정보의 민주화)", kor: "권력의 균형을 대중 쪽으로 이동시킨 바로 그 기술이 그들에게 인접 지역사회에 필수적인 정보를 전달하는 방송자이자 출판자로 행동하고, 더 결정적으로는, 그들 주변의 다른 사람들을 위한 정보의 문지기 역할을 할 수 있는 도구를 제공한다.", eng: "The same technology that has shifted the balance of power toward the people gives them the tools to act as broadcasters and publishers of information essential to their immediate community — and, more critically, to serve as gatekeepers to information for other people around them.", isThesis: true },
 
-    // 5-2
-    { title: "5-2 (정보의 민주화)", kor: "전문 언론인들에 의한 지역사회 참여 증가는 그 자체만으로는 뉴스를 모든 사람에게 더 관련성 있게 만드는 문제를 해결하지 못할 것인데, 전통적인 뉴스 조직들이 이미 많은 지역사회를 버려두고 뉴스 사막을 뒤에 남겨두었기 때문이다.", eng: "Increased community engagement by professional journalists, on their own, will not solve the problem of making the news more relevant to everyone because traditional news organizations already have abandoned many communities, leaving behind news deserts.", isThesis: false },
-    { title: "5-2 (정보의 민주화)", kor: "그런 곳에서, 시민들은 정보를 발견하고, 권력자에게 책임을 묻고, 그들 자신과 이웃을 위해 뉴스를 전달하는 책임을 져야 한다.", eng: "In those places, citizens must take up the responsibility for discovering information, holding the powerful accountable, and telling the news for themselves and their neighbors.", isThesis: false },
-    { title: "5-2 (정보의 민주화)", kor: "컴퓨터와 인터넷에 의해 야기된 파괴적 혁신을 통한 정보의 민주화는, 시민들이 이전에는 존재하지 않았던 방식으로 지역 뉴스의 통제권을 되찾을 수 있게 해 주며, 그들이 발견하거나 안다고 생각하는 것을 수집하고 퍼뜨리는 데 더 큰 주의를 기울이도록 요구한다.", eng: "The democratization of information — through the disruptions caused by computers and the internet — allows citizens to retake control of local news in ways that never have existed before, and it calls them to take greater care in the gathering and dissemination of what they discover or think they know.", isThesis: false },
-    { title: "5-2 (정보의 민주화)", kor: "저널리즘은 아마도 그 어느 때보다도 전문 기자, 부유한 출판업자, 혹은 심지어 기업 주주들보다는 대중에게 속해 있다.", eng: "Journalism, perhaps like never before, belongs to the people rather than to professional journalists, wealthy publishers, or even corporate shareholders.", isThesis: false },
-    { title: "5-2 (정보의 민주화)", kor: "권력의 균형을 대중 쪽으로 이동시킨 바로 그 기술이 그들에게 인접 지역사회에 필수적인 정보를 전달하는 방송자이자 출판자로 행동하고, 더 결정적으로는, 그들 주변의 다른 사람들을 위한 정보의 문지기 역할을 할 수 있는 도구를 제공한다.", eng: "The same technology that has shifted the balance of power toward the people gives them the tools to act as broadcasters and publishers of information essential to their immediate community — and, more critically, to serve as gatekeepers to information for other people around them.", isThesis: true },
+            // 5-3
+            { title: "5-3 (객관적 증거)", kor: "거의 없거나 전혀 객관적인 증거가 없는 아이디어조차 모든 아이디어가 동등하게 타당하다는 것은 근거 없는 믿음이다.", eng: "It is a myth that all ideas are equally valid, even those with little or no objective proof.", isThesis: false },
+            { title: "5-3 (객관적 증거)", kor: "과학의 존재는 객관적 진리에 대한 헌신이다.", eng: "The existence of science is the commitment to objective truth.", isThesis: false },
+            { title: "5-3 (객관적 증거)", kor: "결국, 과학은 진실이다. 불은 뜨겁고, 바퀴는 효율적이며, 새와 비행기는 날 수 있고, 우리는 혜성에 착륙하고 달을 여행했으며, 항생제는 질병을 치료하고, 예방 접종은 우리가 병에 걸리는 것을 막아준다.", eng: "After all, science is true: fire is hot, the wheel is efficient, birds and planes can fly, we've landed on a comet and traveled to the Moon, antibiotics treat illness, and immunizations keep us from getting sick.", isThesis: false },
+            { title: "5-3 (객관적 증거)", kor: "이러한 성취는 객관적인 진리에 의해 가능해진다.", eng: "These accomplishments are made possible by objective truths.", isThesis: false },
+            { title: "5-3 (객관적 증거)", kor: "그럴듯한 이론은 과학을 앞으로 나아가게 할 수 있고, 실제로 종종 그렇게 한다.", eng: "A plausible theory can, and frequently does, push science forward.", isThesis: false },
+            { title: "5-3 (객관적 증거)", kor: "그러나 직관에는 그것의 진실성을 확인하거나 반증하는 테스트가 반드시 뒤따라야 강하다.", eng: "However, an intuition must be followed with testing that confirms or disproves its veracity.", isThesis: false },
+            { title: "5-3 (객관적 증거)", kor: "만약 이론이 반증된다면, 그것을 가설을 거부하거나 변경할 이유로 고려해야지, 단지 본능적으로 그것에 결합되어 있다는 이유만으로 그 가설을 계속 확고하게 고수할 정당화로 삼아서는 안 된다.", eng: "If a theory is disproved, one should consider it as a reason to reject or alter the hypothesis, not a justification to just keep firmly holding to the hypothesis because you are instinctively wedded to it.", isThesis: false },
+            { title: "5-3 (객관적 증거)", kor: "비판적 사고는 절대적인 필수 사항이며, 우리는 증거를 존중해야 한다.", eng: "Critical thinking is an absolute must, and we must respect evidence.", isThesis: true },
+            { title: "5-3 (객관적 증거)", kor: "그것은 누구라도 현실에 대한 어떤 것이든 신뢰할 수 있는 유일한 이유이다.", eng: "It's the only reason for anyone to trust anything about reality.", isThesis: false },
+            { title: "5-3 (객관적 증거)", kor: "테스트와 증거가 없다면 직관은 유용하지만, 결코 최종적인 결론이 될 수 없다.", eng: "Without testing and evidence, intuition is useful, but it is never the ultimate word.", isThesis: false },
 
-    // 5-3
-    { title: "5-3 (객관적 증거)", kor: "거의 없거나 전혀 객관적인 증거가 없는 아이디어조차 모든 아이디어가 동등하게 타당하다는 것은 근거 없는 믿음이다.", eng: "It is a myth that all ideas are equally valid, even those with little or no objective proof.", isThesis: false },
-    { title: "5-3 (객관적 증거)", kor: "과학의 존재는 객관적 진리에 대한 헌신이다.", eng: "The existence of science is the commitment to objective truth.", isThesis: false },
-    { title: "5-3 (객관적 증거)", kor: "결국, 과학은 진실이다. 불은 뜨겁고, 바퀴는 효율적이며, 새와 비행기는 날 수 있고, 우리는 혜성에 착륙하고 달을 여행했으며, 항생제는 질병을 치료하고, 예방 접종은 우리가 병에 걸리는 것을 막아준다.", eng: "After all, science is true: fire is hot, the wheel is efficient, birds and planes can fly, we've landed on a comet and traveled to the Moon, antibiotics treat illness, and immunizations keep us from getting sick.", isThesis: false },
-    { title: "5-3 (객관적 증거)", kor: "이러한 성취는 객관적인 진리에 의해 가능해진다.", eng: "These accomplishments are made possible by objective truths.", isThesis: false },
-    { title: "5-3 (객관적 증거)", kor: "그럴듯한 이론은 과학을 앞으로 나아가게 할 수 있고, 실제로 종종 그렇게 한다.", eng: "A plausible theory can, and frequently does, push science forward.", isThesis: false },
-    { title: "5-3 (객관적 증거)", kor: "그러나 직관에는 그것의 진실성을 확인하거나 반증하는 테스트가 반드시 뒤따라야 한다.", eng: "However, an intuition must be followed with testing that confirms or disproves its veracity.", isThesis: false },
-    { title: "5-3 (객관적 증거)", kor: "만약 이론이 반증된다면, 그것을 가설을 거부하거나 변경할 이유로 고려해야지, 단지 본능적으로 그것에 결합되어 있다는 이유만으로 그 가설을 계속 확고하게 고수할 정당화로 삼아서는 안 된다.", eng: "If a theory is disproved, one should consider it as a reason to reject or alter the hypothesis, not a justification to just keep firmly holding to the hypothesis because you are instinctively wedded to it.", isThesis: false },
-    { title: "5-3 (객관적 증거)", kor: "비판적 사고는 절대적인 필수 사항이며, 우리는 증거를 존중해야 한다.", eng: "Critical thinking is an absolute must, and we must respect evidence.", isThesis: true },
-    { title: "5-3 (객관적 증거)", kor: "그것은 누구라도 현실에 대한 어떤 것이든 신뢰할 수 있는 유일한 이유이다.", eng: "It's the only reason for anyone to trust anything about reality.", isThesis: false },
-    { title: "5-3 (객관적 증거)", kor: "테스트와 증거가 없다면 직관은 유용하지만, 결코 최종적인 결론이 될 수 없다.", eng: "Without testing and evidence, intuition is useful, but it is never the ultimate word.", isThesis: false },
+            // 5-4
+            { title: "5-4 (호흡 조절)", kor: "훈련과 경기는 자연스럽게 호흡을 빠르게 하는데, 이것은 교감 신경계를 활성화한다.", eng: "Training and competition naturally speed the breath, which activates the sympathetic nervous system.", isThesis: false },
+            { title: "5-4 (호흡 조절)", kor: "선수는 아드레날린을 생성하고 흥분된 상태에서 경쟁하고 훈련하기를 원하기 때문에 성과적인 측면에서 이것은 수용 가능하다.", eng: "In performance, this is acceptable because an athlete wants to produce adrenaline and compete and train in an aroused state.", isThesis: false },
+            { title: "5-4 (호흡 조절)", kor: "그러나, 선수가 스포츠에서 경험하는 극심한 교감 신경 활동으로부터 정신적, 신체적으로 기어를 낮추는 방법을 배우고, 성과 외의 상황에서는 교감 신경 활동을 줄이고 투쟁 도피 상태를 해결하기 위해 느린 호흡에 주의를 집중하는 것 역시 똑같이 중요하다.", eng: "However, it is equally important for an athlete to learn how to mentally and physically downshift from the acute sympathetic activity experienced in sport, and outside of performance focus their attention on slow breathing to reduce the sympathetic activity and resolve the fight-or-flight state.", isThesis: false },
+            { title: "5-4 (호흡 조절)", kor: "Feinstein 연구소의 연구에서, 참가자들은 뇌의 특정 영역을 활성화하기 위해 그들 호흡의 속도를 사용할 수 있었다.", eng: "In the Feinstein Institutes study, participants were able to use the pace of their breathing to activate specific regions of the brain.", isThesis: false },
+            { title: "5-4 (호흡 조절)", kor: "수행 영역에서, 이것은 선수들이 그들의 흥분 상태를 관리하기 위해 호흡 속도를 사용할 수 있다는 것을 의미한다.", eng: "In a performance realm, this means athletes can use breathing pace to manage their state of arousal.", isThesis: false },
+            { title: "5-4 (호흡 조절)", kor: "훈련과 경기 중에 아드레날린 분비와 함께 호흡 속도가 증가하며, 운동선수는 적응하고 회복할 수 있도록 이를 통제할 수 있어야 한다.", eng: "During training and competition, the breathing rate increases with the introduction of adrenaline, and athletes must be able to control this to be able to adapt and recover.", isThesis: true },
+            { title: "5-4 (호흡 조절)", kor: "한 가지 방법은 훈련과 경기 외의 상황에서 더 느린 호흡 절차를 연습하는 것이다.", eng: "One way is to practice slower breathing protocols outside of training and competition.", isThesis: false },
 
-    // 5-4
-    { title: "5-4 (호흡 조절)", kor: "훈련과 경기는 자연스럽게 호흡을 빠르게 하는데, 이것은 교감 신경계를 활성화한다.", eng: "Training and competition naturally speed the breath, which activates the sympathetic nervous system.", isThesis: false },
-    { title: "5-4 (호흡 조절)", kor: "선수는 아드레날린을 생성하고 흥분된 상태에서 경쟁하고 훈련하기를 원하기 때문에 성과적인 측면에서 이것은 수용 가능하다.", eng: "In performance, this is acceptable because an athlete wants to produce adrenaline and compete and train in an aroused state.", isThesis: false },
-    { title: "5-4 (호흡 조절)", kor: "그러나, 선수가 스포츠에서 경험하는 극심한 교감 신경 활동으로부터 정신적, 신체적으로 기어를 낮추는 방법을 배우고, 성과 외의 상황에서는 교감 신경 활동을 줄이고 투쟁 도피 상태를 해결하기 위해 느린 호흡에 주의를 집중하는 것 역시 똑같이 중요하다.", eng: "However, it is equally important for an athlete to learn how to mentally and physically downshift from the acute sympathetic activity experienced in sport, and outside of performance focus their attention on slow breathing to reduce the sympathetic activity and resolve the fight-or-flight state.", isThesis: false },
-    { title: "5-4 (호흡 조절)", kor: "Feinstein 연구소의 연구에서, 참가자들은 뇌의 특정 영역을 활성화하기 위해 그들 호흡의 속도를 사용할 수 있었다.", eng: "In the Feinstein Institutes study, participants were able to use the pace of their breathing to activate specific regions of the brain.", isThesis: false },
-    { title: "5-4 (호흡 조절)", kor: "수행 영역에서, 이것은 선수들이 그들의 흥분 상태를 관리하기 위해 호흡 속도를 사용할 수 있다는 것을 의미한다.", eng: "In a performance realm, this means athletes can use breathing pace to manage their state of arousal.", isThesis: false },
-    { title: "5-4 (호흡 조절)", kor: "훈련과 경기 중에 아드레날린 분비와 함께 호흡 속도가 증가하며, 운동선수는 적응하고 회복할 수 있도록 이를 통제할 수 있어야 한다.", eng: "During training and competition, the breathing rate increases with the introduction of adrenaline, and athletes must be able to control this to be able to adapt and recover.", isThesis: true },
-    { title: "5-4 (호흡 조절)", kor: "한 가지 방법은 훈련과 경기 외의 상황에서 더 느린 호흡 절차를 연습하는 것이다.", eng: "One way is to practice slower breathing protocols outside of training and competition.", isThesis: false },
+            // 6-1
+            { title: "6-1 (통제 가능한 위기)", kor: "오늘날의 대침체와 같은 많은 위기들은 당신이 완전히 이해하기에는, 하물며 통제하기에는 너무 크고 압도적이다.", eng: "Many crises today, such as the Great Recession, are simply too big and too overwhelming for you to completely comprehend, much less control.", isThesis: false },
+            { title: "6-1 (통제 가능한 위기)", kor: "이러한 종류의 위기들은 그것들을 극복하는 당신의 능력을 방해하는 파괴적인 반응들로 당신을 쉽게 집어삼킬 수 있는 바로 그런 종류이다.", eng: "Crises of this ilk are precisely the kind that can easily engulf you with destructive reactions that interfere with your ability to overcome them.", isThesis: false },
+            { title: "6-1 (통제 가능한 위기)", kor: "이러한 지나치게 큰 위기에 집중하는 것은 당신이 겪게 될 자연스러운 심리적, 감정적, 신체적 반응을 악화시킬 것이다.", eng: "Focusing on these oversized crises will exacerbate the natural psychological, emotional, and physical reactions you are going to experience.", isThesis: false },
+            { title: "6-1 (통제 가능한 위기)", kor: "이러한 종류의 위기에서 당신의 가장 좋은 기회는 당신의 통제 범위 안에 있는 측면들을 파악하는 것이다.", eng: "With these sorts of crises, your best chance is to identify those aspects that are within your control.", isThesis: true },
+            { title: "6-1 (통제 가능한 위기)", kor: "그런 다음, 당신은 더 큰 위기를 당신이 에너지를 쏟고 해결책을 찾을 수 있는 더 작고 다루기 쉬운 문제들로 나눌 수 있다.", eng: "Then, you can break down the bigger crisis into smaller, more manageable problems toward which you can direct your energy and find solutions.", isThesis: false },
+            { title: "6-1 (통제 가능한 위기)", kor: "예를 들어, 대침체를 되돌아보라.", eng: "For example, think back to the Great Recession.", isThesis: false },
+            { title: "6-1 (통제 가능한 위기)", kor: "비록 당신이 경제 정책에 영향을 미칠 능력은 없었을지라도, 당신 투자의 분배를 재검토하고 더 다양한 포트폴리오를 만들기로 선택할 수는 있었다.", eng: "Although you probably didn't have the ability to influence economic policy, you were able to revisit the distribution of your investments and choose to create a more diverse portfolio.", isThesis: false },
 
-    // 6-1
-    { title: "6-1 (통제 가능한 위기)", kor: "오늘날의 대침체와 같은 많은 위기들은 당신이 완전히 이해하기에는, 하물며 통제하기에는 너무 크고 압도적이다.", eng: "Many crises today, such as the Great Recession, are simply too big and too overwhelming for you to completely comprehend, much less control.", isThesis: false },
-    { title: "6-1 (통제 가능한 위기)", kor: "이러한 종류의 위기들은 그것들을 극복하는 당신의 능력을 방해하는 파괴적인 반응들로 당신을 쉽게 집어삼킬 수 있는 바로 그런 종류이다.", eng: "Crises of this ilk are precisely the kind that can easily engulf you with destructive reactions that interfere with your ability to overcome them.", isThesis: false },
-    { title: "6-1 (통제 가능한 위기)", kor: "이러한 지나치게 큰 위기에 집중하는 것은 당신이 겪게 될 자연스러운 심리적, 감정적, 신체적 반응을 악화시킬 것이다.", eng: "Focusing on these oversized crises will exacerbate the natural psychological, emotional, and physical reactions you are going to experience.", isThesis: false },
-    { title: "6-1 (통제 가능한 위기)", kor: "이러한 종류의 위기에서 당신의 가장 좋은 기회는 당신의 통제 범위 안에 있는 측면들을 파악하는 것이다.", eng: "With these sorts of crises, your best chance is to identify those aspects that are within your control.", isThesis: true },
-    { title: "6-1 (통제 가능한 위기)", kor: "그런 다음, 당신은 더 큰 위기를 당신이 에너지를 쏟고 해결책을 찾을 수 있는 더 작고 다루기 쉬운 문제들로 나눌 수 있다.", eng: "Then, you can break down the bigger crisis into smaller, more manageable problems toward which you can direct your energy and find solutions.", isThesis: false },
-    { title: "6-1 (통제 가능한 위기)", kor: "예를 들어, 대침체를 되돌아보라.", eng: "For example, think back to the Great Recession.", isThesis: false },
-    { title: "6-1 (통제 가능한 위기)", kor: "비록 당신이 경제 정책에 영향을 미칠 능력은 없었을지라도, 당신 투자의 분배를 재검토하고 더 다양한 포트폴리오를 만들기로 선택할 수는 있었다.", eng: "Although you probably didn't have the ability to influence economic policy, you were able to revisit the distribution of your investments and choose to create a more diverse portfolio.", isThesis: false },
+            // 6-2
+            { title: "6-2 (건강 정보의 출처)", kor: "소비자 설문조사는 대다수의 미국인(91%)이 그들의 건강에 대해 어느 정도 통제력을 가지고 있다고 믿으며, 72%는 음식과 영양이 가장 큰 역할을 한다고 믿는다는 것을 보여준다.", eng: "Consumer surveys indicate that the majority of Americans (91%) believe they have some control over their health, and 72% believe that food and nutrition play the greatest role.", isThesis: false },
+            { title: "6-2 (건강 정보의 출처)", kor: "그러나 소비자의 75%는 건강과 영양 정보의 주요 출처로 인터넷을 포함한 대중 매체에 의존하고 있으며, 절반만이 의료 출처를 이용한다.", eng: "However, 75% of consumers rely on media outlets including the Internet as their major sources of health and nutrition information, and only half use medical sources.", isThesis: false },
+            { title: "6-2 (건강 정보의 출처)", kor: "'영양 관련 전자 메일링 리스트'에 대한 구글 검색은 10만 개가 넘는 사이트를 산출했지만, 이 글들 중 많은 수가 영양 전문가들에 의해 검토되지 않았을 가능성이 크다.", eng: "A Google search for nutrition listservs yielded over 100,000 sites, but it is likely that many of these writings are not reviewed by nutrition experts.", isThesis: false },
+            { title: "6-2 (건강 정보의 출처)", kor: "약초, 약품, 건강 기기를 마케팅하는 인터넷 사이트들은 정부 규제 기관에 의해 감시되지 않으며 종종 오해를 불러일으키는 정보를 포함한다.", eng: "Internet sites marketing herbs, drugs, and health devices are not monitored by government regulatory agencies and often contain misleading information.", isThesis: false },
+            { title: "6-2 (건강 정보의 출처)", kor: "평판이 좋은 식품 회사들은 그들 제품의 영양 성분에 대한 유용한 사실을 제공하지만, 판매에 전념하는 상업 사이트들은 종종 오해를 불러일으키는 건강상의 주장을 게시한다.", eng: "Reputable food companies provide helpful facts about the nutrient content of their products, but commercial sites devoted to sales often post misleading health claims.", isThesis: false },
+            { title: "6-2 (건강 정보의 출처)", kor: "정부 기관, 대학, 주립 연장 서비스 및 의료 시설이 유지 관리하는 인터넷 사이트는 증거 기반 정보를 제공하며 공공 정보의 첫 번째 출처가 되어야 한다.", eng: "Internet sites maintained by government agencies, universities, state extension services, and medical facilities provide evidence-based information and should be the first source for public information on foods, nutrition, and health.", isThesis: true },
 
-    // 6-2
-    { title: "6-2 (건강 정보의 출처)", kor: "소비자 설문조사는 대다수의 미국인(91%)이 그들의 건강에 대해 어느 정도 통제력을 가지고 있다고 믿으며, 72%는 음식과 영양이 가장 큰 역할을 한다고 믿는다는 것을 보여준다.", eng: "Consumer surveys indicate that the majority of Americans (91%) believe they have some control over their health, and 72% believe that food and nutrition play the greatest role.", isThesis: false },
-    { title: "6-2 (건강 정보의 출처)", kor: "그러나 소비자의 75%는 건강과 영양 정보의 주요 출처로 인터넷을 포함한 대중 매체에 의존하고 있으며, 절반만이 의료 출처를 이용한다.", eng: "However, 75% of consumers rely on media outlets including the Internet as their major sources of health and nutrition information, and only half use medical sources.", isThesis: false },
-    { title: "6-2 (건강 정보의 출처)", kor: "'영양 관련 전자 메일링 리스트'에 대한 구글 검색은 10만 개가 넘는 사이트를 산출했지만, 이 글들 중 많은 수가 영양 전문가들에 의해 검토되지 않았을 가능성이 크다.", eng: "A Google search for nutrition listservs yielded over 100,000 sites, but it is likely that many of these writings are not reviewed by nutrition experts.", isThesis: false },
-    { title: "6-2 (건강 정보의 출처)", kor: "약초, 약품, 건강 기기를 마케팅하는 인터넷 사이트들은 정부 규제 기관에 의해 감시되지 않으며 종종 오해를 불러일으키는 정보를 포함한다.", eng: "Internet sites marketing herbs, drugs, and health devices are not monitored by government regulatory agencies and often contain misleading information.", isThesis: false },
-    { title: "6-2 (건강 정보의 출처)", kor: "평판이 좋은 식품 회사들은 그들 제품의 영양 성분에 대한 유용한 사실을 제공하지만, 판매에 전념하는 상업 사이트들은 종종 오해를 불러일으키는 건강상의 주장을 게시한다.", eng: "Reputable food companies provide helpful facts about the nutrient content of their products, but commercial sites devoted to sales often post misleading health claims.", isThesis: false },
-    { title: "6-2 (건강 정보의 출처)", kor: "정부 기관, 대학, 주립 연장 서비스 및 의료 시설이 유지 관리하는 인터넷 사이트는 증거 기반 정보를 제공하며 공공 정보의 첫 번째 출처가 되어야 한다.", eng: "Internet sites maintained by government agencies, universities, state extension services, and medical facilities provide evidence-based information and should be the first source for public information on foods, nutrition, and health.", isThesis: true },
+            // 6-3
+            { title: "6-3 (서번트 리더십)", kor: "나의 동업자 Charles와 나는 서번트 리더의 일 처리 방식을 수용했다.", eng: "My business partner Charles and I embraced the servant leader's way of doing things.", isThesis: false },
+            { title: "6-3 (서번트 리더십)", kor: "다시 말해서, 어떤 일도 우리 수준에 미치지 못하는 것은 없었다.", eng: "In other words, nothing was beneath us.", isThesis: false },
+            { title: "6-3 (서번트 리더십)", kor: "우리는 솔선수범했고 그 일을 했다.", eng: "We led by example and did the work.", isThesis: false },
+            { title: "6-3 (서번트 리더십)", kor: "어떤 새로운 판매원이 가게에 들어왔을 때, 그는 주변을 둘러보고 Charles가 바닥 한구석을 닦고 있고 내가 밀가루를 뒤집어쓰고 있는 것을 알아차리고는 의사 결정자가 없다고 추측하곤 했다.", eng: "When any new salesman came into the store, he would look around, notice Charles polishing some corner of the floor and me covered in flour, and assume the decision-maker was not present.", isThesis: false },
+            { title: "6-3 (서번트 리더십)", kor: "그러고 나서 그는 자신이 파는 것이 무엇이든 나에게 넘겨주고 '이것을 주인에게 전해주시겠어요?'라고 말하곤 했다.", eng: "He'd then hand off whatever he was selling to me and say, Can you give this to the owner?", isThesis: false },
+            { title: "6-3 (서번트 리더십)", kor: "이제, 만약 Charles와 내가 빵집에 너무 오래 머물렀다면, 우리는 성장하고 규모를 확장할 수 없었을 것이므로, 나는 당신이 영원히 바닥을 쓸어야 한다고 말하는 것은 아니다.", eng: "Now, if Charles and I had remained in the bakery for too long, we wouldn't have been able to grow and scale, so I'm not saying you should be sweeping the floors forever.", isThesis: false },
+            { title: "6-3 (서번트 리더십)", kor: "그것은 무엇이 중요한지를 보여주는 것에 더 가깝다.", eng: "It's more about modeling what's important.", isThesis: false },
+            { title: "6-3 (서번트 리더십)", kor: "청결과 세부 사항이 중요하다면, 직접 나서서 그 일을 하고 돕는 것을 주저하지 마라.", eng: "If cleanliness and details are important, be sure you aren't above doing the work and pitching in.", isThesis: true },
+            { title: "6-3 (서번트 리더십)", kor: "작업 공간에 들어와서 어떻게 도울 수 있는지 물어보라.", eng: "Come into your workspace and ask how you can help.", isThesis: false },
+            { title: "6-3 (서번트 리더십)", kor: "만약 당신의 팀이 난관에 처해 있는 것이 분명하다면, 묻지 말고 뛰어들어라.", eng: "If it's clear your team is in the weeds, jump in without asking.", isThesis: false },
 
-    // 6-3
-    { title: "6-3 (서번트 리더십)", kor: "나의 동업자 Charles와 나는 서번트 리더의 일 처리 방식을 수용했다.", eng: "My business partner Charles and I embraced the servant leader's way of doing things.", isThesis: false },
-    { title: "6-3 (서번트 리더십)", kor: "다시 말해서, 어떤 일도 우리 수준에 미치지 못하는 것은 없었다.", eng: "In other words, nothing was beneath us.", isThesis: false },
-    { title: "6-3 (서번트 리더십)", kor: "우리는 솔선수범했고 그 일을 했다.", eng: "We led by example and did the work.", isThesis: false },
-    { title: "6-3 (서번트 리더십)", kor: "어떤 새로운 판매원이 가게에 들어왔을 때, 그는 주변을 둘러보고 Charles가 바닥 한구석을 닦고 있고 내가 밀가루를 뒤집어쓰고 있는 것을 알아차리고는 의사 결정자가 없다고 추측하곤 했다.", eng: "When any new salesman came into the store, he would look around, notice Charles polishing some corner of the floor and me covered in flour, and assume the decision-maker was not present.", isThesis: false },
-    { title: "6-3 (서번트 리더십)", kor: "그러고 나서 그는 자신이 파는 것이 무엇이든 나에게 넘겨주고 '이것을 주인에게 전해주시겠어요?'라고 말하곤 했다.", eng: "He'd then hand off whatever he was selling to me and say, Can you give this to the owner?", isThesis: false },
-    { title: "6-3 (서번트 리더십)", kor: "이제, 만약 Charles와 내가 빵집에 너무 오래 머물렀다면, 우리는 성장하고 규모를 확장할 수 없었을 것이므로, 나는 당신이 영원히 바닥을 쓸어야 한다고 말하는 것은 아니다.", eng: "Now, if Charles and I had remained in the bakery for too long, we wouldn't have been able to grow and scale, so I'm not saying you should be sweeping the floors forever.", isThesis: false },
-    { title: "6-3 (서번트 리더십)", kor: "그것은 무엇이 중요한지를 보여주는 것에 더 가깝다.", eng: "It's more about modeling what's important.", isThesis: false },
-    { title: "6-3 (서번트 리더십)", kor: "청결과 세부 사항이 중요하다면, 직접 나서서 그 일을 하고 돕는 것을 주저하지 마라.", eng: "If cleanliness and details are important, be sure you aren't above doing the work and pitching in.", isThesis: true },
-    { title: "6-3 (서번트 리더십)", kor: "작업 공간에 들어와서 어떻게 도울 수 있는지 물어보라.", eng: "Come into your workspace and ask how you can help.", isThesis: false },
-    { title: "6-3 (서번트 리더십)", kor: "만약 당신의 팀이 난관에 처해 있는 것이 분명하다면, 묻지 말고 뛰어들어라.", eng: "If it's clear your team is in the weeds, jump in without asking.", isThesis: false }
-];
+            // 6-4
+            { title: "6-4 (문학과 상상력)", kor: "문학 읽기가 다른 삶, 장소, 그리고 시간과의 대리적 동일시와 비교를 통해 제공하는 도피 속에서, 우리는 우리의 현재 환경 밖에 있고 심지어 진짜가 아닐지도 모르는 대안적인 일련의 생각과 경험을 탐구할 수 있는 독특하게 인간적인 능력인 상상력을 활성화한다.", eng: "In the escape that reading literature provides through vicarious identification and comparison with other lives, places, and times, we activate our imagination, that uniquely human ability to explore an alternative set of ideas and experiences that are outside our present environment and that may not even be real.", isThesis: true },
+            { title: "6-4 (문학과 상상력)", kor: "외부 세계(빛, 소리, 모양)로부터 정보를 받아들이고 처리하여 그 안에서 의미(일몰, 교향곡, 집)를 찾는 지각과 반대로, 상상에서는 그 과정이 역전된다.", eng: "As opposed to perception that receives and processes information from the outside world — light, sound, shape — and finds meaning in it — a sunset, a symphony, a house — in imagination, the process is reversed.", isThesis: false },
+            { title: "6-4 (문학과 상상력)", kor: "우리가 읽는 단어들을 그것들이 의미하는 바를 바꾸면서, 우리는 기억으로부터 이미지가 생성되는 내면 세계를 채운다.", eng: "Translating the words we read into what they signify, we populate an inner world in which imagery is created from the memory.", isThesis: false },
+            { title: "6-4 (문학과 상상력)", kor: "예를 들어, 우리는 “집”이라는 단어를 읽고 기억으로부터 집의 표상을 머릿속에 그린다.", eng: "For example, we read “house” and picture a representation of a house from memory.", isThesis: false },
+            { title: "6-4 (문학과 상상력)", kor: "문학이 활성화하여 즐거움을 주는 잠재적인 창의성을 발산하게 하는 것은 지각과 기억의 복잡한 얽힘인 바로 우리의 상상력이다.", eng: "It is our imagination, the complex interweaving of perception and memory that literature activates, releasing a latent creativity that pleases.", isThesis: false },
+            { title: "6-4 (문학과 상상력)", kor: "작가는 청사진을 제공할지 모르지만, 독자는 문학의 많은 방을 짓고, 다른 만족스러운 직업과 마찬가지로, 문학은 우리의 상상력과 창의력을 만족시킨다.", eng: "The writer may provide the blueprint, but the reader builds literature’s many rooms, and like any satisfying occupation, literature gratifies our imaginative and creative abilities.", isThesis: true }
+        ];
 
-// 3단계 고난도 힌트 단어 리스트 통합
-const coreKeywords = [
-    "microclimate", "localized", "cathedral", "blueprint", "manifestation", 
-    "distilled", "gatekeepers", "veracity", "compassion", "comprehend", 
-    "exacerbate", "regulatory", "reputable", "pitching", "sympathetic", 
-    "adrenaline", "protocols", "sophisticated", "dissemination", "hypothesis", 
-    "immunizations", "plausible", "overwhelming"
-];
-let currentQ = [];
-let idx = 0;
+        // 3단계 고난도 힌트 단어 리스트 통합
+        const coreKeywords = [
+            "microclimate", "localized", "cathedral", "blueprint", "manifestation",
+            "distilled", "gatekeepers", "veracity", "compassion", "comprehend",
+            "exacerbate", "regulatory", "reputable", "pitching", "sympathetic",
+            "adrenaline", "protocols", "sophisticated", "dissemination", "hypothesis",
+            "immunizations", "plausible", "overwhelming", "vicarious", "perception",
+            "signify", "populate", "imagery", "interweaving", "latent", "gratifies", "occupation"
+        ];
+        let currentQ = [];
+        let idx = 0;
 
-function createGrid() {
-    const unique = [...new Set(db.map(i => i.title))];
-    document.getElementById('passageGrid').innerHTML = unique.map(t => `
+        function createGrid() {
+            const unique = [...new Set(db.map(i => i.title))];
+            document.getElementById('passageGrid').innerHTML = unique.map(t => `
         <label class="checkbox-item"><input type="checkbox" class="psg-chk" value="${t}" checked> ${t}</label>
     `).join('');
-}
-
-function toggleAll(s) { document.querySelectorAll('.psg-chk').forEach(c => c.checked = s); }
-
-function updateStrikeThrough() {
-    const isEnabled = document.getElementById('useStrikeToggle').checked;
-    const hintElements = document.querySelectorAll('.hint-word');
-    if (!isEnabled) { hintElements.forEach(el => el.classList.remove('used-word')); return; }
-    
-    const userText = document.getElementById('userInput').value.toLowerCase();
-    const userWords = userText.match(/\b\w+\b/g) || [];
-    let tempUserWords = [...userWords];
-    
-    hintElements.forEach(el => {
-        const word = el.innerText.toLowerCase().replace(/[.;:,—]/g, "");
-        const wordIndex = tempUserWords.indexOf(word);
-        if (wordIndex !== -1) { 
-            el.classList.add('used-word'); 
-            tempUserWords.splice(wordIndex, 1); 
-        } else { 
-            el.classList.remove('used-word'); 
         }
-    });
-}
 
-function getHintArray(str, lv) {
-    let clean = str.replace(/[.;:,—]/g, "");
-    let words = clean.split(" ");
-    if (lv == 1) return words.map(w => w.toLowerCase()).sort(() => Math.random() - 0.5);
-    if (lv == 2) return words.filter(w => w.length >= 5 || /[A-Z]/.test(w[0])).map(w => w.toLowerCase());
-    if (lv == 3) return words.filter(w => w.length >= 7 || coreKeywords.includes(w.toLowerCase())).map(w => w.toLowerCase());
-}
+        function toggleAll(s) { document.querySelectorAll('.psg-chk').forEach(c => c.checked = s); }
 
-function startSession() {
-    const mode = document.getElementById('modeSelect').value;
-    const lvs = Array.from(document.querySelectorAll('.lv-chk:checked')).map(c => parseInt(c.value));
-    const selected = Array.from(document.querySelectorAll('.psg-chk:checked')).map(c => c.value);
-    const isSequential = document.getElementById('orderToggle').checked;
-    
-    if(!lvs.length || !selected.length) return alert("지문과 난이도 조건을 하나 이상 선택해주세요.");
-    
-    currentQ = db.filter(i => selected.includes(i.title) && (mode === 'perfect' || i.isThesis))
-        .map(i => ({ ...i, lv: lvs[Math.floor(Math.random() * lvs.length)] }));
-        
-    if (!isSequential) currentQ.sort(() => Math.random() - 0.5);
-    
-    if(!currentQ.length) return alert("해당 조건에 맞는 문장이 존재하지 않습니다.");
-    
-    idx = 0; 
-    document.getElementById('setupCard').style.display = 'none';
-    document.getElementById('examArea').style.display = 'block'; 
-    renderQ();
-}
+        function updateStrikeThrough() {
+            const isEnabled = document.getElementById('useStrikeToggle').checked;
+            const hintElements = document.querySelectorAll('.hint-word');
+            if (!isEnabled) { hintElements.forEach(el => el.classList.remove('used-word')); return; }
 
-function renderQ() {
-    const q = currentQ[idx];
-    const badgeClass = q.lv == 1 ? 'badge-lv1' : (q.lv == 2 ? 'badge-lv2' : 'badge-lv3');
-    document.getElementById('lvBadgeContainer').innerHTML = `<span class="badge ${badgeClass}">${q.lv}단계 | ${q.title}</span>`;
-    document.getElementById('korQ').innerText = "Q. " + q.kor;
-    
-    const hintWords = getHintArray(q.eng, q.lv);
-    document.getElementById('hintArea').innerHTML = hintWords.length ? 
-        hintWords.map(w => `<span class="hint-word">${w}</span>`).join(" ") : "문장의 뼈대를 구상하여 영작하세요.";
-        
-    document.getElementById('userInput').value = ""; 
-    document.getElementById('feedback').innerText = "";
-    document.getElementById('btnCheck').style.display = 'block'; 
-    document.getElementById('btnNext').style.display = 'none';
-    
-    updateStrikeThrough();
-}
+            const userText = document.getElementById('userInput').value.toLowerCase();
+            const userWords = userText.match(/\b\w+\b/g) || [];
+            let tempUserWords = [...userWords];
 
-function checkAnswer() {
-    const user = document.getElementById('userInput').value.trim().toLowerCase().replace(/[.;:,—]/g, "");
-    const real = currentQ[idx].eng.toLowerCase().replace(/[.;:,—]/g, "");
-    
-    if (user === real) {
-        document.getElementById('feedback').style.color = "var(--success)";
-        document.getElementById('feedback').innerText = "✅ 완벽합니다! 복습 후 다음 문제로 넘어가세요.";
-        document.getElementById('btnCheck').style.display = 'none'; 
-        document.getElementById('btnNext').style.display = 'block';
-    } else {
-        document.getElementById('feedback').style.color = "var(--danger)";
-        document.getElementById('feedback').innerHTML = `❌ 오답입니다.<br><span style="font-size:0.95rem; color:#64748b; font-weight:500;">정답: ${currentQ[idx].eng}</span>`;
-    }
-}
+            hintElements.forEach(el => {
+                const word = el.innerText.toLowerCase().replace(/[.;:,—]/g, "");
+                const wordIndex = tempUserWords.indexOf(word);
+                if (wordIndex !== -1) {
+                    el.classList.add('used-word');
+                    tempUserWords.splice(wordIndex, 1);
+                } else {
+                    el.classList.remove('used-word');
+                }
+            });
+        }
 
-function skipNext() { 
-    idx++; 
-    if (idx < currentQ.length) {
-        renderQ(); 
-    } else { 
-        alert("🎉 선택한 지문의 학습이 모두 끝났습니다!"); 
-        location.reload(); 
-    } 
-}
+        function getHintArray(str, lv) {
+            let clean = str.replace(/[.;:,—]/g, "");
+            let words = clean.split(" ");
+            if (lv == 1) return words.map(w => w.toLowerCase()).sort(() => Math.random() - 0.5);
+            if (lv == 2) return words.filter(w => w.length >= 5 || /[A-Z]/.test(w[0])).map(w => w.toLowerCase());
+            if (lv == 3) return words.filter(w => w.length >= 7 || coreKeywords.includes(w.toLowerCase())).map(w => w.toLowerCase());
+        }
 
-function endSession() { 
-    if(confirm("정말 학습을 중간에 종료하시겠습니까? 진행 상황은 저장되지 않습니다.")) {
-        location.reload(); 
-    }
-}
+        function startSession() {
+            const mode = document.getElementById('modeSelect').value;
+            const lvs = Array.from(document.querySelectorAll('.lv-chk:checked')).map(c => parseInt(c.value));
+            const selected = Array.from(document.querySelectorAll('.psg-chk:checked')).map(c => c.value);
+            const isSequential = document.getElementById('orderToggle').checked;
 
-function saveToWrongNote() {
-    let note = JSON.parse(localStorage.getItem('wrongNote') || "[]");
-    if (!note.some(n => n.eng === currentQ[idx].eng)) {
-        note.push(currentQ[idx]); 
-        localStorage.setItem('wrongNote', JSON.stringify(note));
-        renderNotes(); 
-        alert("오답노트에 안전하게 저장되었습니다.");
-    } else {
-        alert("이미 오답노트에 존재하는 문장입니다.");
-    }
-}
+            if (!lvs.length || !selected.length) return alert("지문과 난이도 조건을 하나 이상 선택해주세요.");
 
-function renderNotes() {
-    const note = JSON.parse(localStorage.getItem('wrongNote') || "[]");
-    document.getElementById('wrongNoteDisplay').innerHTML = note.length ? note.map(n => `
+            currentQ = db.filter(i => selected.includes(i.title) && (mode === 'perfect' || i.isThesis))
+                .map(i => ({ ...i, lv: lvs[Math.floor(Math.random() * lvs.length)] }));
+
+            if (!isSequential) currentQ.sort(() => Math.random() - 0.5);
+
+            if (!currentQ.length) return alert("해당 조건에 맞는 문장이 존재하지 않습니다.");
+
+            idx = 0;
+            document.getElementById('setupCard').style.display = 'none';
+            document.getElementById('examArea').style.display = 'block';
+            renderQ();
+        }
+
+        function renderQ() {
+            const q = currentQ[idx];
+            const badgeClass = q.lv == 1 ? 'badge-lv1' : (q.lv == 2 ? 'badge-lv2' : 'badge-lv3');
+            document.getElementById('lvBadgeContainer').innerHTML = `<span class="badge ${badgeClass}">${q.lv}단계 | ${q.title}</span>`;
+            document.getElementById('korQ').innerText = "Q. " + q.kor;
+
+            const hintWords = getHintArray(q.eng, q.lv);
+            document.getElementById('hintArea').innerHTML = hintWords.length ?
+                hintWords.map(w => `<span class="hint-word">${w}</span>`).join(" ") : "문장의 뼈대를 구상하여 영작하세요.";
+
+            document.getElementById('userInput').value = "";
+            document.getElementById('feedback').innerText = "";
+            document.getElementById('btnCheck').style.display = 'block';
+            document.getElementById('btnNext').style.display = 'none';
+            document.getElementById('btnForceCorrect').style.display = 'none'; // 초기화 시 숨김
+
+            updateStrikeThrough();
+        }
+
+        function checkAnswer() {
+            const user = document.getElementById('userInput').value.trim().toLowerCase().replace(/[.;:,—]/g, "");
+            const real = currentQ[idx].eng.toLowerCase().replace(/[.;:,—]/g, "");
+
+            // 기본적으로 채점 버튼을 숨기고 다음 버튼을 표시
+            document.getElementById('btnCheck').style.display = 'none';
+            document.getElementById('btnNext').style.display = 'block';
+
+            if (user === real) {
+                document.getElementById('feedback').style.color = "var(--success)";
+                document.getElementById('feedback').innerText = "✅ 완벽합니다! 복습 후 다음 문제로 넘어가세요.";
+                document.getElementById('btnForceCorrect').style.display = 'none';
+            } else {
+                document.getElementById('feedback').style.color = "var(--danger)";
+                document.getElementById('feedback').innerHTML = `❌ 오답입니다.<br><span style="font-size:0.95rem; color:#64748b; font-weight:500;">정답: ${currentQ[idx].eng}</span>`;
+                document.getElementById('btnForceCorrect').style.display = 'block'; // 오답 시 정답 처리 버튼 노출
+            }
+        }
+
+        // 수동 정답 처리 함수 추가
+        function forceCorrect() {
+            document.getElementById('feedback').style.color = "var(--success)";
+            document.getElementById('feedback').innerText = "✅ 수동 정답 처리되었습니다! 복습 후 다음 문제로 넘어가세요.";
+            document.getElementById('btnForceCorrect').style.display = 'none';
+        }
+
+        function skipNext() {
+            idx++;
+            if (idx < currentQ.length) {
+                renderQ();
+            } else {
+                alert("🎉 선택한 지문의 학습이 모두 끝났습니다!");
+                location.reload();
+            }
+        }
+
+        function endSession() {
+            if (confirm("정말 학습을 중간에 종료하시겠습니까? 진행 상황은 저장되지 않습니다.")) {
+                location.reload();
+            }
+        }
+
+        function saveToWrongNote() {
+            let note = JSON.parse(localStorage.getItem('wrongNote') || "[]");
+            if (!note.some(n => n.eng === currentQ[idx].eng)) {
+                note.push(currentQ[idx]);
+                localStorage.setItem('wrongNote', JSON.stringify(note));
+                renderNotes();
+                alert("오답노트에 안전하게 저장되었습니다.");
+            } else {
+                alert("이미 오답노트에 존재하는 문장입니다.");
+            }
+        }
+
+        function renderNotes() {
+            const note = JSON.parse(localStorage.getItem('wrongNote') || "[]");
+            document.getElementById('wrongNoteDisplay').innerHTML = note.length ? note.map(n => `
         <div style="padding:15px; border-bottom:1.5px solid #f1f5f9;">
             <b style="color:var(--primary); display:block; margin-bottom:4px;">[${n.title}]</b> 
             ${n.kor}<br><span style="color:#64748b;">${n.eng}</span>
         </div>
     `).join('') : "기록된 오답이 없습니다.";
-}
+        }
 
-function clearNotes() { 
-    if(confirm("모든 오답 기록을 지우시겠습니까?")) { 
-        localStorage.removeItem('wrongNote'); 
-        renderNotes(); 
-    } 
-}
+        function clearNotes() {
+            if (confirm("모든 오답 기록을 지우시겠습니까?")) {
+                localStorage.removeItem('wrongNote');
+                renderNotes();
+            }
+        }
 
-createGrid(); 
-renderNotes();
-</script>
+        createGrid();
+        renderNotes();
+    </script>
 </body>
+
 </html>
