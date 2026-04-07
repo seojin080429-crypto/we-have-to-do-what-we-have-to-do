@@ -123,7 +123,7 @@
 </div>
 
 <script>
-// 전체 지문 데이터베이스 (4-1 ~ 6-4, 5-4 제외)
+// 전체 지문 데이터베이스 (4-1 ~ 6-3, 5-4 포함)
 const db = [
     // 4-1
     { title: "4-1 (미시 기후)", kor: "야외에서도 기후는 보통 인간의 통제 밖에 있다고 여겨지지만, 국지적인 온도 조절은 미시 기후 규모에서는 때때로 효과적이다.", eng: "Even outdoors, although climate is usually regarded as beyond the control of man, localized temperature control is sometimes effective on a microclimate scale.", isThesis: true },
@@ -191,6 +191,15 @@ const db = [
     { title: "5-3 (객관적 증거)", kor: "그것은 누구라도 현실에 대한 어떤 것이든 신뢰할 수 있는 유일한 이유이다.", eng: "It's the only reason for anyone to trust anything about reality.", isThesis: false },
     { title: "5-3 (객관적 증거)", kor: "테스트와 증거가 없다면 직관은 유용하지만, 결코 최종적인 결론이 될 수 없다.", eng: "Without testing and evidence, intuition is useful, but it is never the ultimate word.", isThesis: false },
 
+    // 5-4
+    { title: "5-4 (호흡 조절)", kor: "훈련과 경기는 자연스럽게 호흡을 빠르게 하는데, 이것은 교감 신경계를 활성화한다.", eng: "Training and competition naturally speed the breath, which activates the sympathetic nervous system.", isThesis: false },
+    { title: "5-4 (호흡 조절)", kor: "선수는 아드레날린을 생성하고 흥분된 상태에서 경쟁하고 훈련하기를 원하기 때문에 성과적인 측면에서 이것은 수용 가능하다.", eng: "In performance, this is acceptable because an athlete wants to produce adrenaline and compete and train in an aroused state.", isThesis: false },
+    { title: "5-4 (호흡 조절)", kor: "그러나, 선수가 스포츠에서 경험하는 극심한 교감 신경 활동으로부터 정신적, 신체적으로 기어를 낮추는 방법을 배우고, 성과 외의 상황에서는 교감 신경 활동을 줄이고 투쟁 도피 상태를 해결하기 위해 느린 호흡에 주의를 집중하는 것 역시 똑같이 중요하다.", eng: "However, it is equally important for an athlete to learn how to mentally and physically downshift from the acute sympathetic activity experienced in sport, and outside of performance focus their attention on slow breathing to reduce the sympathetic activity and resolve the fight-or-flight state.", isThesis: false },
+    { title: "5-4 (호흡 조절)", kor: "Feinstein 연구소의 연구에서, 참가자들은 뇌의 특정 영역을 활성화하기 위해 그들 호흡의 속도를 사용할 수 있었다.", eng: "In the Feinstein Institutes study, participants were able to use the pace of their breathing to activate specific regions of the brain.", isThesis: false },
+    { title: "5-4 (호흡 조절)", kor: "수행 영역에서, 이것은 선수들이 그들의 흥분 상태를 관리하기 위해 호흡 속도를 사용할 수 있다는 것을 의미한다.", eng: "In a performance realm, this means athletes can use breathing pace to manage their state of arousal.", isThesis: false },
+    { title: "5-4 (호흡 조절)", kor: "훈련과 경기 중에 아드레날린 분비와 함께 호흡 속도가 증가하며, 운동선수는 적응하고 회복할 수 있도록 이를 통제할 수 있어야 한다.", eng: "During training and competition, the breathing rate increases with the introduction of adrenaline, and athletes must be able to control this to be able to adapt and recover.", isThesis: true },
+    { title: "5-4 (호흡 조절)", kor: "한 가지 방법은 훈련과 경기 외의 상황에서 더 느린 호흡 절차를 연습하는 것이다.", eng: "One way is to practice slower breathing protocols outside of training and competition.", isThesis: false },
+
     // 6-1
     { title: "6-1 (통제 가능한 위기)", kor: "오늘날의 대침체와 같은 많은 위기들은 당신이 완전히 이해하기에는, 하물며 통제하기에는 너무 크고 압도적이다.", eng: "Many crises today, such as the Great Recession, are simply too big and too overwhelming for you to completely comprehend, much less control.", isThesis: false },
     { title: "6-1 (통제 가능한 위기)", kor: "이러한 종류의 위기들은 그것들을 극복하는 당신의 능력을 방해하는 파괴적인 반응들로 당신을 쉽게 집어삼킬 수 있는 바로 그런 종류이다.", eng: "Crises of this ilk are precisely the kind that can easily engulf you with destructive reactions that interfere with your ability to overcome them.", isThesis: false },
@@ -218,16 +227,7 @@ const db = [
     { title: "6-3 (서번트 리더십)", kor: "그것은 무엇이 중요한지를 보여주는 것에 더 가깝다.", eng: "It's more about modeling what's important.", isThesis: false },
     { title: "6-3 (서번트 리더십)", kor: "청결과 세부 사항이 중요하다면, 직접 나서서 그 일을 하고 돕는 것을 주저하지 마라.", eng: "If cleanliness and details are important, be sure you aren't above doing the work and pitching in.", isThesis: true },
     { title: "6-3 (서번트 리더십)", kor: "작업 공간에 들어와서 어떻게 도울 수 있는지 물어보라.", eng: "Come into your workspace and ask how you can help.", isThesis: false },
-    { title: "6-3 (서번트 리더십)", kor: "만약 당신의 팀이 난관에 처해 있는 것이 분명하다면, 묻지 말고 뛰어들어라.", eng: "If it's clear your team is in the weeds, jump in without asking.", isThesis: false },
-
-    // 6-4
-    { title: "6-4 (호흡 조절)", kor: "훈련과 경기는 자연스럽게 호흡을 빠르게 하는데, 이것은 교감 신경계를 활성화한다.", eng: "Training and competition naturally speed the breath, which activates the sympathetic nervous system.", isThesis: false },
-    { title: "6-4 (호흡 조절)", kor: "선수는 아드레날린을 생성하고 흥분된 상태에서 경쟁하고 훈련하기를 원하기 때문에 성과적인 측면에서 이것은 수용 가능하다.", eng: "In performance, this is acceptable because an athlete wants to produce adrenaline and compete and train in an aroused state.", isThesis: false },
-    { title: "6-4 (호흡 조절)", kor: "그러나, 선수가 스포츠에서 경험하는 극심한 교감 신경 활동으로부터 정신적, 신체적으로 기어를 낮추는 방법을 배우고, 성과 외의 상황에서는 교감 신경 활동을 줄이고 투쟁 도피 상태를 해결하기 위해 느린 호흡에 주의를 집중하는 것 역시 똑같이 중요하다.", eng: "However, it is equally important for an athlete to learn how to mentally and physically downshift from the acute sympathetic activity experienced in sport, and outside of performance focus their attention on slow breathing to reduce the sympathetic activity and resolve the fight-or-flight state.", isThesis: false },
-    { title: "6-4 (호흡 조절)", kor: "Feinstein 연구소의 연구에서, 참가자들은 뇌의 특정 영역을 활성화하기 위해 그들 호흡의 속도를 사용할 수 있었다.", eng: "In the Feinstein Institutes study, participants were able to use the pace of their breathing to activate specific regions of the brain.", isThesis: false },
-    { title: "6-4 (호흡 조절)", kor: "수행 영역에서, 이것은 선수들이 그들의 흥분 상태를 관리하기 위해 호흡 속도를 사용할 수 있다는 것을 의미한다.", eng: "In a performance realm, this means athletes can use breathing pace to manage their state of arousal.", isThesis: false },
-    { title: "6-4 (호흡 조절)", kor: "훈련과 경기 중에 아드레날린 분비와 함께 호흡 속도가 증가하며, 운동선수는 적응하고 회복할 수 있도록 이를 통제할 수 있어야 한다.", eng: "During training and competition, the breathing rate increases with the introduction of adrenaline, and athletes must be able to control this to be able to adapt and recover.", isThesis: true },
-    { title: "6-4 (호흡 조절)", kor: "한 가지 방법은 훈련과 경기 외의 상황에서 더 느린 호흡 절차를 연습하는 것이다.", eng: "One way is to practice slower breathing protocols outside of training and competition.", isThesis: false }
+    { title: "6-3 (서번트 리더십)", kor: "만약 당신의 팀이 난관에 처해 있는 것이 분명하다면, 묻지 말고 뛰어들어라.", eng: "If it's clear your team is in the weeds, jump in without asking.", isThesis: false }
 ];
 
 // 3단계 고난도 힌트 단어 리스트 통합
@@ -319,7 +319,6 @@ function renderQ() {
 }
 
 function checkAnswer() {
-    // 하이픈, 쉼표, 마침표 등 기호를 모두 무시하고 순수 스펠링만 비교
     const user = document.getElementById('userInput').value.trim().toLowerCase().replace(/[.;:,—]/g, "");
     const real = currentQ[idx].eng.toLowerCase().replace(/[.;:,—]/g, "");
     
